@@ -11,4 +11,30 @@ public class medico {       // Definimos atributos
         this.apellido = apellido;
         this.especialidad = especialidad;
     }
+
+    // Getters y Setters 
+
+    public int getId_medico() {
+        return id_medico;
+    }
+    public String getNombre() {
+        return nombre;
+    }
+    public String getApellido() {
+        return apellido;
+    }
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
 }
