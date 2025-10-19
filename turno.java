@@ -55,5 +55,16 @@ public class turno {
         this.agenda = agenda;
     }
     
+    // constructor 
+    public turno(int id_turno, String estado, String consultorio, LocalDateTime fecha, paciente paciente, medico medico, agenda agenda) {
+        this.id_turno = id_turno;
+        this.estado = estado;
+        this.consultorio = consultorio;
+        this.fecha = fecha;
+        this.paciente = paciente;
+        this.medico = medico;
+        this.agenda = agenda;
+    }
 
 }
+
