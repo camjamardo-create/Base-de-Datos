@@ -26,10 +26,6 @@ public class agenda {
         return fecha_libre;
     }
 
-    public void setId_agenda(int id_agenda) {
-        this.id_agenda = id_agenda;
-    }
-
     public void setfecha(LocalDateTime fecha){
         this.fecha = fecha;
     }
@@ -38,4 +34,5 @@ public class agenda {
         this.fecha_libre = fecha_libre;
     }
 }
+
 
