@@ -1,11 +1,11 @@
-public class medico {       // Definimos atributos
+public class Medico {       // Definimos atributos
     private int id_medico;
     private String nombre;
     private String apellido;
     private String especialidad;
 
     // Constructor
-    public medico(int id_medico, String nombre, String apellido, String especialidad) {
+    public Medico(int id_medico, String nombre, String apellido, String especialidad) {
         this.id_medico = id_medico;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -38,3 +38,4 @@ public class medico {       // Definimos atributos
         this.especialidad = especialidad;
     }
 }
+
