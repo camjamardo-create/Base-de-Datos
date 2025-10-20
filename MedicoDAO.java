@@ -8,7 +8,7 @@ public class MedicoDAO {
     
     // Create: Agrego un nuevo medico a la tabla de medicos de la BD
     public void agregarMedico(Medico medico) {
-        String sql = "INSERT INTO Medico (id_medico, nombre, apellido, especialidad) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO medicos (nombre, apellido, especialidad) VALUES (?,?,?,?)";
         // Ingresamos la primera fila a la tabla Medico de la BD, definiendo (?,?,?) como marcadores 
         // de posicion, para saber donde insertar los valores cuando prepareStatement los reemplace.
         // Esto es mas seguro que concatenar los valores directamente en el string SQL, ya que
@@ -19,7 +19,8 @@ public class MedicoDAO {
             PreparedStatement stmt = conexion.prepareStatement(sql); // Preparamos la consulta SQL (sql),
             // reemplazando los marcadores de posicion con los valores del objeto medico
 
-            stmt.setInt(1,medico.getId_medico());  // Reemplazo los ? de cada posicion con el valor adecuadocon el id_medico
+            // Reemplazo los ? de cada posicion con el valor adecuado
+            // no ingreso desde aca el id_medico porque es auto_increment en la BD
             stmt.setString(2,medico.getNombre());  
             stmt.setString(3,medico.getApellido());  
             stmt.setString(4,medico.getEspecialidad());  
@@ -41,7 +42,7 @@ public class MedicoDAO {
     // READ: Leemos la lista de medicos ingresados
     public List<Medico> obtenerMedicos() {
         List<Medico> medicos = new ArrayList<>(); // Creamos una lista vacia para guardar los resultados
-        String sql = "SELECT * FROM Medico"; // Consulta SQL para seleccionar todos los medicos de la BD
+        String sql = "SELECT * FROM medicos"; // Consulta SQL para seleccionar todos los medicos de la BD
 
         try {
             Connection conexion = conexion_base.getConexion(); 
@@ -73,7 +74,7 @@ public class MedicoDAO {
 
     // UPDATE: Actualizamos los datos de un medico existente
     public void actualizarMedico(Medico medico) {
-        String sql = "UPDATE Medico SET nombre=?, apellido=?, especialidad=? WHERE id_medico=?";
+        String sql = "UPDATE medicos SET nombre=?, apellido=?, especialidad=? WHERE id_medico=?";
         // Actualizamos los datos del medico con id_medico especifico
         
         try {
@@ -101,20 +102,24 @@ public class MedicoDAO {
 
     // DELETE: Eliminamos un medico de la BD
     public void eliminarMedico(int id_medico) {
-        String sql = "DELETE FROM Medico WHERE id_medico=?";
+        String sql = "DELETE FROM medicos WHERE id_medico=?";
 
         try {
             Connection conexion = conexion_base.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql);
             stmt.setInt(1, id_medico); // Colocamos el id del medico a eliminar en la posicion 1 del SQL (o sea donde tenemos el ?)
 
-            stmt.executeUpdate();  // Ejecutamos el DELETE
-            System.out.println("Medico eliminado exitosamente.");   
+            int filaAfectada = stmt.executeUpdate();  // Ejecutamos el DELETE
+
+            if (filaAfectada > 0) {
+                System.out.println("Medico eliminado exitosamente.");   
+            } else { System.out.println("No se encontró un medico con el ID " + filaAfectada); }
+            
             stmt.close();
             conexion.close();
 
         } catch (Exception e) {
             System.out.println("Error al eliminar medico: " + e.getMessage());
         }
+    }
 }
-
