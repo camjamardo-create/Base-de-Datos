@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.mysql.cj.x.protobuf.MysqlxSql;
 
-public class MedicoDAO {
+public class medicoDAO {
     
     // Create: Agrego un nuevo medico a la tabla de medicos de la BD
-    public void agregarMedico(Medico medico) {
+    public void agregarMedico(medico med) {
         String sql = "INSERT INTO medicos (nombre, apellido, especialidad) VALUES (?,?,?,?)";
         // Ingresamos la primera fila a la tabla Medico de la BD, definiendo (?,?,?) como marcadores 
         // de posicion, para saber donde insertar los valores cuando prepareStatement los reemplace.
@@ -21,9 +21,9 @@ public class MedicoDAO {
 
             // Reemplazo los ? de cada posicion con el valor adecuado
             // no ingreso desde aca el id_medico porque es auto_increment en la BD
-            stmt.setString(2,medico.getNombre());  
-            stmt.setString(3,medico.getApellido());  
-            stmt.setString(4,medico.getEspecialidad());  
+            stmt.setString(2,med.getNombre());  
+            stmt.setString(3,med.getApellido());  
+            stmt.setString(4,med.getEspecialidad());  
             
             stmt.executeUpdate(); // Ejecuta la consulta SQL, es decir, ejecuta el INSERT de sql, 
             // modificando la BD. 
@@ -40,8 +40,8 @@ public class MedicoDAO {
 
 
     // READ: Leemos la lista de medicos ingresados
-    public List<Medico> obtenerMedicos() {
-        List<Medico> medicos = new ArrayList<>(); // Creamos una lista vacia para guardar los resultados
+    public List<medico> obtenerMedicos() {
+        List<medico> medicos = new ArrayList<>(); // Creamos una lista vacia para guardar los resultados
         String sql = "SELECT * FROM medicos"; // Consulta SQL para seleccionar todos los medicos de la BD
 
         try {
@@ -56,8 +56,8 @@ public class MedicoDAO {
                 String apellido = rs.getString("apellido"); 
                 String especialidad = rs.getString("especialidad"); 
 
-                Medico medico = new Medico(id_medico, nombre, apellido, especialidad); // instanciamos un medico de la clase Medico
-                medicos.add(medico); // Agregamos el medico a la lista
+                medico med = new medico(id_medico, nombre, apellido, especialidad); // instanciamos un medico de la clase Medico
+                medicos.add(med); // Agregamos el medico a la lista
             }
 
             rs.close(); 
@@ -73,7 +73,7 @@ public class MedicoDAO {
 
 
     // UPDATE: Actualizamos los datos de un medico existente
-    public void actualizarMedico(Medico medico) {
+    public void actualizarMedico(medico med) {
         String sql = "UPDATE medicos SET nombre=?, apellido=?, especialidad=? WHERE id_medico=?";
         // Actualizamos los datos del medico con id_medico especifico
         
@@ -82,10 +82,10 @@ public class MedicoDAO {
             PreparedStatement stmt = conexion.prepareStatement(sql);
             
             // Nuevos valores de los atributos
-            stmt.setString(1, medico.getNombre());
-            stmt.setString(2, medico.getApellido());
-            stmt.setString(3, medico.getEspecialidad());
-            stmt.setInt(4, medico.getId_medico()); // Con esto colocamos el id del medico en la posicion 4 del SQL
+            stmt.setString(1, med.getNombre());
+            stmt.setString(2, med.getApellido());
+            stmt.setString(3, med.getEspecialidad());
+            stmt.setInt(4, med.getId_medico()); // Con esto colocamos el id del medico en la posicion 4 del SQL
             // del where, para saber que medico actualizar
             
             stmt.executeUpdate(); 
