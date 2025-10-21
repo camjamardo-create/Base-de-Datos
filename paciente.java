@@ -3,13 +3,13 @@ import java.time.LocalDate;
 public class paciente {
     private int dni;
     private int id_paciente;
-    private int edad;
     private String nombre;
     private String apellido;
     private String telefono;
     private String obra_social;
     private String domicilio;
     private LocalDate fecha_nacimiento;
+    private String contraseña;
     
 //getters y setters
     public int getDni() {
@@ -20,12 +20,6 @@ public class paciente {
     }
     public int getId_paciente() {
         return id_paciente;
-    }
-    public int getEdad() {
-        return edad;
-    }
-    public void setEdad(int edad) {
-        this.edad = edad;
     }
     public String getNombre() {
         return nombre;
@@ -63,9 +57,15 @@ public class paciente {
     public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
+    public String getGenero() {
+        return genero;
+    }
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
     
     // Constructor
-    public paciente(int dni, int id_paciente, String nombre, String apellido, String domicilio, String telefono, String obra_social, LocalDate fecha_nacimiento, String genero) {
+    public paciente(int dni, int id_paciente, String nombre, String apellido, String domicilio, String telefono, String obra_social, LocalDate fecha_nacimiento, String genero, String contraseña) {
         this.dni = dni;
         this.id_paciente = id_paciente;
         this.nombre = nombre;
@@ -75,9 +75,11 @@ public class paciente {
         this.domicilio = domicilio;
         this.fecha_nacimiento = fecha_nacimiento;
         this.genero = genero;
+        this.contraseña = contraseña;
     }
     
 }
+
 
 
 
