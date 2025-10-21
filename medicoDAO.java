@@ -8,14 +8,14 @@ public class medicoDAO {
     
     // Create: Agrego un nuevo medico a la tabla de medicos de la BD
     public void agregarMedico(medico med) {
-        String sql = "INSERT INTO medicos (nombre, apellido, especialidad) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO medicos (nombre, apellido, especialidad) VALUES (?,?,?,?,?,?)";
         // Ingresamos la primera fila a la tabla Medico de la BD, definiendo (?,?,?) como marcadores 
         // de posicion, para saber donde insertar los valores cuando prepareStatement los reemplace.
         // Esto es mas seguro que concatenar los valores directamente en el string SQL, ya que
         // previene inyecciones SQL.
 
         try {
-            Connection conexion = conexion_base.getConexion(); // Abrimos la conexion con la BD
+            Connection conexion = conexion_base.conexion(); // Abrimos la conexion con la BD
             PreparedStatement stmt = conexion.prepareStatement(sql); // Preparamos la consulta SQL (sql),
             // reemplazando los marcadores de posicion con los valores del objeto medico
 
@@ -23,7 +23,9 @@ public class medicoDAO {
             // no ingreso desde aca el id_medico porque es auto_increment en la BD
             stmt.setString(2,med.getNombre());  
             stmt.setString(3,med.getApellido());  
-            stmt.setString(4,med.getEspecialidad());  
+            stmt.setString(4,med.getEspecialidad()); 
+            stmt.setInt(5,med.getDNI());
+            stmt.setString(6,med.getContraseña()); 
             
             stmt.executeUpdate(); // Ejecuta la consulta SQL, es decir, ejecuta el INSERT de sql, 
             // modificando la BD. 
@@ -45,7 +47,7 @@ public class medicoDAO {
         String sql = "SELECT * FROM medicos"; // Consulta SQL para seleccionar todos los medicos de la BD
 
         try {
-            Connection conexion = conexion_base.getConexion(); 
+            Connection conexion = conexion_base.conexion(); 
             Statement stmt = conexion.createStatement(); 
             ResultSet rs = stmt.executeQuery(sql); // Ejecutamos la consulta y obtenemos el resultado
             // el comando executeQuery se usa para consultas SELECT que devuelven datos, que guardamos temporalmente en memoria 
@@ -55,8 +57,10 @@ public class medicoDAO {
                 String nombre = rs.getString("nombre"); 
                 String apellido = rs.getString("apellido"); 
                 String especialidad = rs.getString("especialidad"); 
+                int DNI = rs.getInt("DNI");
+                String contraseña = rs.getString("contraseña");
 
-                medico med = new medico(id_medico, nombre, apellido, especialidad); // instanciamos un medico de la clase Medico
+                medico med = new medico(id_medico, nombre, apellido, especialidad, DNI, contraseña); // instanciamos un medico de la clase Medico
                 medicos.add(med); // Agregamos el medico a la lista
             }
 
@@ -78,7 +82,7 @@ public class medicoDAO {
         // Actualizamos los datos del medico con id_medico especifico
         
         try {
-            Connection conexion = conexion_base.getConexion();
+            Connection conexion = conexion_base.conexion();
             PreparedStatement stmt = conexion.prepareStatement(sql);
             
             // Nuevos valores de los atributos
@@ -105,7 +109,7 @@ public class medicoDAO {
         String sql = "DELETE FROM medicos WHERE id_medico=?";
 
         try {
-            Connection conexion = conexion_base.getConexion();
+            Connection conexion = conexion_base.conexion();
             PreparedStatement stmt = conexion.prepareStatement(sql);
             stmt.setInt(1, id_medico); // Colocamos el id del medico a eliminar en la posicion 1 del SQL (o sea donde tenemos el ?)
 
