@@ -65,18 +65,19 @@ public class paciente {
     }
     
     // Constructor
-    public paciente(int dni, int id_paciente, int edad, String nombre, String apellido, String telefono, String obra_social, String domicilio, LocalDate fecha_nacimiento) {
+    public paciente(int dni, int id_paciente, String nombre, String apellido, String domicilio, String telefono, String obra_social, LocalDate fecha_nacimiento, String genero) {
         this.dni = dni;
         this.id_paciente = id_paciente;
-        this.edad = edad;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.obra_social = obra_social;
         this.domicilio = domicilio;
         this.fecha_nacimiento = fecha_nacimiento;
+        this.genero = genero;
     }
     
 }
+
 
 
