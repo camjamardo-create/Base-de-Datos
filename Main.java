@@ -1,8 +1,11 @@
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.awt.Color;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.Font;
 import java.util.List;
 
@@ -39,14 +42,17 @@ public class Main {
         etiqueta2.setFont(new Font("Cambria", Font.PLAIN, 16));
         ventana.add(etiqueta2);
 
-        // Acción del botón iniciar sesión
+ // ------------------- Acción del botón iniciar sesión  --------------------------------- //
+
         boton_inicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.dispose();
 
+    // --------------- Abrimos la ventana de inicio  -------------------------- //
+
                 JFrame ventana_inicio = new JFrame("Iniciar Sesion");
-                ventana_inicio.setSize(600, 500);
+                ventana_inicio.setSize(600, 400);
                 ventana_inicio.setLayout(null);
 
                 JLabel etiqueta_inicio = new JLabel("Ingresá tu DNI: ");
@@ -63,23 +69,23 @@ public class Main {
                 etiqueta_inicio1.setFont(new Font("Cambria", Font.PLAIN, 16));
                 ventana_inicio.add(etiqueta_inicio1);
 
-                JTextField campo_contraseña = new JTextField();
+                JPasswordField campo_contraseña = new JPasswordField();
                 campo_contraseña.setBounds(270, 140, 200, 30);
                 ventana_inicio.add(campo_contraseña);
 
-                JButton boton_enviar = new JButton("Enviar");
-                boton_enviar.setBounds(250, 300, 100, 30);
+                JButton boton_enviar = new JButton("Ingresar");
+                boton_enviar.setBounds(250, 250, 100, 30);
                 boton_enviar.setBackground(new Color(216, 191, 216));
                 ventana_inicio.add(boton_enviar);
 
                 JTextArea cartel_info = new JTextArea();
                 cartel_info.setEditable(false);
-                cartel_info.setBounds(200, 200, 400, 20);
-                cartel_info.setBackground(new Color(238, 238, 238)
-);
+                cartel_info.setBounds(150, 200, 400, 20);
+                cartel_info.setBackground(new Color(238, 238, 238));
                 ventana_inicio.add(cartel_info);
 
-                // Acción del botón enviar
+ // -------------------------  Acción del botón enviar ------------------------------------- //
+
                 boton_enviar.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -93,13 +99,7 @@ public class Main {
 
                             try {
                                 int dniInt = Integer.parseInt(campo_dni.getText());
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(ventana_inicio, "El DNI debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-                                return;
-                            }
-
-
-                            for (medico med : medicos) {
+                                 for (medico med : medicos) {
                                 if (med.getDni() == dniInt && med.getContraseña().equals(contraseña)) {
                                     encontrado = true;
                                     break;
@@ -109,15 +109,53 @@ public class Main {
                             if (encontrado == false) {
                                 cartel_info.setText("DNI o contraseña incorrectos. Intente nuevamente.");
                             } else if(encontrado == true) {
-                                cartel_info.setText("Inicio de sesión exitoso. ¡Bienvenido!");
+                                ventana_inicio.dispose();
+
+ // ------------------ Aquí se abriría la ventana principal después de iniciar sesión correctamente -------------------------- //
+
+                                JFrame ventana_principal = new JFrame("Co&Ca");
+                                ventana_principal.setSize(880, 600);
+                                ventana_principal.setLayout(null);
+                                ventana_principal.getContentPane().setBackground(new Color(51, 78, 88));
+                                
+
+                                JLabel etiqueta_principal = new JLabel("Bienvenido al sistema Co&Ca - Elige una opción del menú");
+                                etiqueta_principal.setBounds(80, 50, 7000, 50);
+                                etiqueta_principal.setFont(new Font("Cambria", Font.BOLD, 25));
+                                etiqueta_principal.setForeground(Color.WHITE);
+                                ventana_principal.add(etiqueta_principal);
+
+                                JButton boton_perfil = new JButton("Mi perfil");
+                                boton_perfil.setBounds(250, 250, 100, 30);
+                                boton_perfil.setBackground(new Color(216, 191, 216));
+                                ventana_principal.add(boton_perfil);
+
+
+                                ventana_principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                ventana_principal.setVisible(true);
+                            }
+
+                        
+                            } catch (NumberFormatException ex) {
+                                JOptionPane.showMessageDialog(ventana_inicio, "El DNI debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
                             }
 
                         } else {
                             cartel_info.setText("Por favor, complete todos los campos.");
                         }
                     }
+                    
                 });
-            boton_registro.addActionListener(new ActionListener() { // Configuramos el botón de registro
+                ventana_inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                ventana_inicio.setVisible(true);
+            }
+
+         });
+
+
+ // ------------------------- Acción del botón registrarse  --------------------------------- //
+        boton_registro.addActionListener(new ActionListener() { // Configuramos el botón de registro
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -276,16 +314,16 @@ public class Main {
                     });
                     ventana_registro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     ventana_registro.setVisible(true);
-                }
-            });
+            
 
-                ventana_inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                ventana_inicio.setVisible(true);
             }
-         });
+        });
+
 
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setVisible(true);
 
     }
+}
+
 
