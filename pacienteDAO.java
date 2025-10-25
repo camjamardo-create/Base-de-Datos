@@ -70,6 +70,13 @@ public class pacienteDAO {
         stmt.setInt(10, pac.getId_paciente());
         stmt.executeUpdate();
     }
+    // eliminar paciente
+    public void eliminarPaciente(int id_paciente) throws SQLException {
+        String sql = "DELETE FROM paciente WHERE id_paciente=?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, id_paciente); // setInt para establecer el valor del parámetro id_paciente en la sentencia
+        stmt.executeUpdate();
+    }
 
     // cerrar conexion
     public void cerrarConexion() {
@@ -83,5 +90,6 @@ public class pacienteDAO {
         }
     }
 }
+
 
 
