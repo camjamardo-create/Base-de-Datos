@@ -19,7 +19,7 @@ public class Main {
         etiqueta.setBounds(40, 10, 600, 100);
         etiqueta.setFont(new Font("Cambria", Font.BOLD, 26));
         ventana.add(etiqueta);
-
+        
         JLabel etiqueta1 = new JLabel("Ingresá iniciando sesión o registrandote si es tu primera vez");
         etiqueta1.setFont(new Font("Cambria", Font.PLAIN, 16));
         etiqueta1.setBounds(85, 60, 450, 100);
@@ -93,14 +93,14 @@ public class Main {
                         String contraseña = campo_contraseña.getText();
 
                         if (!dni.isEmpty() || !contraseña.isEmpty()) {
-                            medicoDAO medicoDAO = new medicoDAO(); // Luego cambiar por pacienteDAO si corresponde                                
-                            List<medico> medicos = medicoDAO.obtenerMedicos();
+                            pacienteDAO pacienteDAO = new pacienteDAO();   // Instanciamos el DAO para poder usar sus métodos                             
+                            List<paciente> pacientes = pacienteDAO.obtenerPacientes();
                             boolean encontrado = false;
 
                             try {
                                 int dniInt = Integer.parseInt(campo_dni.getText());
-                                 for (medico med : medicos) {
-                                if (med.getDni() == dniInt && med.getContraseña().equals(contraseña)) {
+                                 for (paciente pac : pacientes) {
+                                if (pac.getDni() == dniInt && pac.getContraseña().equals(contraseña)) {
                                     encontrado = true;
                                     break;
                                 }
@@ -279,7 +279,8 @@ public class Main {
                                 JOptionPane.showMessageDialog(ventana_registro, "El DNI debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }
-    
+                            
+                            int id_paciente = 0; // El ID se asignará automáticamente en la base de datos
                             int dni = Integer.parseInt(dnitexto);
                             String nombre = campo_nombre.getText();
                             String apellido = campo_apellido.getText();
@@ -290,7 +291,7 @@ public class Main {
                             String genero = campo_genero.getText();
                             String contraseña = campo_contraseña.getText();
     
-                            paciente nuevo_paciente = new paciente(0, dni, nombre, apellido, domicilio, telefono, obra_social, fecha_nac, genero, contraseña);
+                            paciente nuevo_paciente = new paciente(id_paciente, dni, nombre, apellido, domicilio, telefono, obra_social, fecha_nac, genero, contraseña);
                             pacienteDAO pacienteDAO; //instanciacion del DAO
                     
     
@@ -325,5 +326,7 @@ public class Main {
 
     }
 }
+
+
 
 
