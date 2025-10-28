@@ -1,13 +1,14 @@
 import java.time.LocalDate;
 
 public class paciente {
-    private int dni;
     private int id_paciente;
+    private int dni;
     private String nombre;
     private String apellido;
     private String telefono;
     private String obra_social;
     private String domicilio;
+    private String genero;
     private LocalDate fecha_nacimiento;
     private String contraseña;
     
@@ -63,11 +64,17 @@ public class paciente {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+     public String getContraseña() {
+        return contraseña;
+    }
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
     
     // Constructor
-    public paciente(int dni, int id_paciente, String nombre, String apellido, String domicilio, String telefono, String obra_social, LocalDate fecha_nacimiento, String genero, String contraseña) {
-        this.dni = dni;
+    public paciente(int id_paciente, int dni, String nombre, String apellido, String domicilio, String telefono, String obra_social, LocalDate fecha_nacimiento, String genero, String contraseña) {
         this.id_paciente = id_paciente;
+        this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
@@ -79,6 +86,9 @@ public class paciente {
     }
     
 }
+
+
+
 
 
 
