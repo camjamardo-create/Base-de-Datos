@@ -42,6 +42,11 @@ public class Main {
         etiqueta2.setFont(new Font("Cambria", Font.PLAIN, 16));
         ventana.add(etiqueta2);
 
+        JFrame ventana_principal = new JFrame("Co&Ca");
+        ventana_principal.setSize(880, 600);
+        ventana_principal.setLayout(null);
+        ventana_principal.getContentPane().setBackground(new Color(51, 78, 88));
+
  // ------------------- Acción del botón iniciar sesión  --------------------------------- //
 
         boton_inicio.addActionListener(new ActionListener() {
@@ -112,12 +117,6 @@ public class Main {
                                 ventana_inicio.dispose();
 
  // ------------------ Aquí se abriría la ventana principal después de iniciar sesión correctamente -------------------------- //
-
-                                JFrame ventana_principal = new JFrame("Co&Ca");
-                                ventana_principal.setSize(880, 600);
-                                ventana_principal.setLayout(null);
-                                ventana_principal.getContentPane().setBackground(new Color(51, 78, 88));
-                                
 
                                 JLabel etiqueta_principal = new JLabel("Bienvenido al sistema Co&Ca - Elige una opción del menú");
                                 etiqueta_principal.setBounds(80, 50, 7000, 50);
@@ -310,7 +309,69 @@ public class Main {
                                 return;
                             }
                             ventana_registro.dispose(); // Cerramos la ventana de registro
-                            ventana.setVisible(true); // Volvemos a mostrar la ventana principal
+                            ventana_principal.setVisible(true); // Abrimos la ventana principal
+
+                            JLabel etiqueta_principal = new JLabel("Bienvenido al sistema Co&Ca - Elige una opción del menú");
+                            etiqueta_principal.setBounds(80, 50, 7000, 50);
+                            etiqueta_principal.setFont(new Font("Cambria", Font.BOLD, 25));
+                            etiqueta_principal.setForeground(Color.WHITE);
+                            ventana_principal.add(etiqueta_principal);
+
+                            JButton boton_perfil = new JButton("Mi perfil");
+                            boton_perfil.setBounds(250, 250, 100, 30);
+                            boton_perfil.setBackground(new Color(216, 191, 216));
+                            ventana_principal.add(boton_perfil);
+
+                            JButton boton_turno = new JButton("Mis turnos");
+                            boton_turno.setBounds(400, 250, 100, 30);
+                            boton_turno.setBackground(new Color(216, 191, 216));
+                            ventana_principal.add(boton_turno);
+                                                        JButton boton_agendar = new JButton("Agendar turno");
+                            JButton boton_agendar.setBounds(550, 250, 130, 30);
+                            boton_agendar.setBackground(new Color(216, 191, 216));
+                            ventana_principal.add(boton_agendar);
+
+                            boton_perfil.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    JFrame ventana_perfil = new JFrame("Mi perfil");
+                                    ventana_perfil.setSize(400, 400);
+                                    ventana_perfil.setLayout(null);
+
+                                    // Aquí se agregarían los componentes del perfil del usuario
+                                    JLabel etiqueta_nombre = new JLabel("Nombre: " + nombre);
+                                    JLabel etiqueta_apellido = new JLabel("Apellido: " + apellido);
+                                    JLabel etiqueta_dni = new JLabel("DNI: " + dni);
+                                    JLabel etiqueta_domicilio = new JLabel("Domicilio: " + domicilio);
+                                    JLabel etiqueta_telefono = new JLabel("Teléfono: " + telefono);
+                                    JLabel etiqueta_obra_social = new JLabel("Obra Social: " + obra_social);
+                                    JLabel etiqueta_fecha_nac = new JLabel("Fecha de Nacimiento: " + fecha_nac);
+                                    JLabel etiqueta_genero = new JLabel("Género: " + genero);
+
+                                    JPanel panel_perfil = new JPanel();
+                                    panel_perfil.setLayout(null);
+                                    etiqueta_nombre.setBounds(10, 10, 200, 30);
+                                    etiqueta_apellido.setBounds(10, 50, 200, 30);
+                                    etiqueta_dni.setBounds(10, 90, 200, 30);
+                                    etiqueta_domicilio.setBounds(10, 130, 300, 30);
+                                    etiqueta_telefono.setBounds(10, 170, 200, 30);  
+                                    etiqueta_obra_social.setBounds(10, 210, 200, 30);
+                                    etiqueta_fecha_nac.setBounds(10, 250, 300, 30);
+                                    etiqueta_genero.setBounds(10, 290, 200, 30);
+                                    panel_perfil.add(etiqueta_nombre);
+                                    panel_perfil.add(etiqueta_apellido);
+                                    panel_perfil.add(etiqueta_dni);
+                                    panel_perfil.add(etiqueta_domicilio);
+                                    panel_perfil.add(etiqueta_telefono);
+                                    panel_perfil.add(etiqueta_obra_social);
+                                    panel_perfil.add(etiqueta_fecha_nac);
+                                    panel_perfil.add(etiqueta_genero);
+
+                                    ventana_perfil.add(panel_perfil);
+                                    ventana_perfil.setVisible(true);
+                                }
+
+                            });
                         }
                     });
                     ventana_registro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -326,6 +387,7 @@ public class Main {
 
     }
 }
+
 
 
 
