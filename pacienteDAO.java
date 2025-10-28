@@ -1,6 +1,11 @@
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement; // Importa la clase PreparedStatement para ejecutar sentencias SQL precompiladas
+import java.util.List;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 
 public class pacienteDAO {
     private Connection connection;
@@ -90,6 +95,9 @@ public class pacienteDAO {
         }
     }
 }
+
+
+
 
 
 
