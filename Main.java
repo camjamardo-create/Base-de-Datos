@@ -42,19 +42,14 @@ public class Main {
         etiqueta2.setFont(new Font("Cambria", Font.PLAIN, 16));
         ventana.add(etiqueta2);
 
-        JFrame ventana_principal = new JFrame("Co&Ca");
-        ventana_principal.setSize(880, 600);
-        ventana_principal.setLayout(null);
-        ventana_principal.getContentPane().setBackground(new Color(51, 78, 88));
-
- // ------------------- Acción del botón iniciar sesión  --------------------------------- //
+        // ------------------- Acción del botón iniciar sesión  --------------------------------- //
 
         boton_inicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.dispose();
 
-    // --------------- Abrimos la ventana de inicio  -------------------------- //
+                // --------------- Abrimos la ventana de inicio  -------------------------- //
 
                 JFrame ventana_inicio = new JFrame("Iniciar Sesion");
                 ventana_inicio.setSize(600, 400);
@@ -89,7 +84,7 @@ public class Main {
                 cartel_info.setBackground(new Color(238, 238, 238));
                 ventana_inicio.add(cartel_info);
 
- // -------------------------  Acción del botón enviar ------------------------------------- //
+                // -------------------------  Acción del botón enviar ------------------------------------- //
 
                 boton_enviar.addActionListener(new ActionListener() {
                     @Override
@@ -104,34 +99,21 @@ public class Main {
 
                             try {
                                 int dniInt = Integer.parseInt(campo_dni.getText());
-                                 for (paciente pac : pacientes) {
-                                if (pac.getDni() == dniInt && pac.getContraseña().equals(contraseña)) {
-                                    encontrado = true;
-                                    break;
+                                paciente pac_usuario = null; // Variable para almacenar el paciente encontrado
+                                for (paciente pac : pacientes) {
+                                    if (pac.getDni() == dniInt && pac.getContraseña().equals(contraseña)) {
+                                        encontrado = true;
+                                        pac_usuario = pac;
+                                        break;
+                                    }
                                 }
-                            }
 
                             if (encontrado == false) {
                                 cartel_info.setText("DNI o contraseña incorrectos. Intente nuevamente.");
                             } else if(encontrado == true) {
                                 ventana_inicio.dispose();
+                                interfazVentanaPrincipal(pac_usuario); // Le enviamos el nuevo paciente a la ventana principal
 
- // ------------------ Aquí se abriría la ventana principal después de iniciar sesión correctamente -------------------------- //
-
-                                JLabel etiqueta_principal = new JLabel("Bienvenido al sistema Co&Ca - Elige una opción del menú");
-                                etiqueta_principal.setBounds(80, 50, 7000, 50);
-                                etiqueta_principal.setFont(new Font("Cambria", Font.BOLD, 25));
-                                etiqueta_principal.setForeground(Color.WHITE);
-                                ventana_principal.add(etiqueta_principal);
-
-                                JButton boton_perfil = new JButton("Mi perfil");
-                                boton_perfil.setBounds(250, 250, 100, 30);
-                                boton_perfil.setBackground(new Color(216, 191, 216));
-                                ventana_principal.add(boton_perfil);
-
-
-                                ventana_principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                ventana_principal.setVisible(true);
                             }
 
                         
@@ -153,7 +135,7 @@ public class Main {
          });
 
 
- // ------------------------- Acción del botón registrarse  --------------------------------- //
+        // ------------------------- Acción del botón registrarse  --------------------------------- //
         boton_registro.addActionListener(new ActionListener() { // Configuramos el botón de registro
 
                 @Override
@@ -265,7 +247,7 @@ public class Main {
                     ventana_registro.add(area_aviso);
 
                 
-                // Acción al presionar el botón registrar
+                    // Acción al presionar el botón registrar
                     boton_registrar.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -309,69 +291,9 @@ public class Main {
                                 return;
                             }
                             ventana_registro.dispose(); // Cerramos la ventana de registro
-                            ventana_principal.setVisible(true); // Abrimos la ventana principal
+                            interfazVentanaPrincipal(nuevo_paciente); // Le enviamos el nuevo paciente a la ventana principal
 
-                            JLabel etiqueta_principal = new JLabel("Bienvenido al sistema Co&Ca - Elige una opción del menú");
-                            etiqueta_principal.setBounds(80, 50, 7000, 50);
-                            etiqueta_principal.setFont(new Font("Cambria", Font.BOLD, 25));
-                            etiqueta_principal.setForeground(Color.WHITE);
-                            ventana_principal.add(etiqueta_principal);
-
-                            JButton boton_perfil = new JButton("Mi perfil");
-                            boton_perfil.setBounds(250, 250, 100, 30);
-                            boton_perfil.setBackground(new Color(216, 191, 216));
-                            ventana_principal.add(boton_perfil);
-
-                            JButton boton_turno = new JButton("Mis turnos");
-                            boton_turno.setBounds(400, 250, 100, 30);
-                            boton_turno.setBackground(new Color(216, 191, 216));
-                            ventana_principal.add(boton_turno);
-                                                        JButton boton_agendar = new JButton("Agendar turno");
-                            JButton boton_agendar.setBounds(550, 250, 130, 30);
-                            boton_agendar.setBackground(new Color(216, 191, 216));
-                            ventana_principal.add(boton_agendar);
-
-                            boton_perfil.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    JFrame ventana_perfil = new JFrame("Mi perfil");
-                                    ventana_perfil.setSize(400, 400);
-                                    ventana_perfil.setLayout(null);
-
-                                    // Aquí se agregarían los componentes del perfil del usuario
-                                    JLabel etiqueta_nombre = new JLabel("Nombre: " + nombre);
-                                    JLabel etiqueta_apellido = new JLabel("Apellido: " + apellido);
-                                    JLabel etiqueta_dni = new JLabel("DNI: " + dni);
-                                    JLabel etiqueta_domicilio = new JLabel("Domicilio: " + domicilio);
-                                    JLabel etiqueta_telefono = new JLabel("Teléfono: " + telefono);
-                                    JLabel etiqueta_obra_social = new JLabel("Obra Social: " + obra_social);
-                                    JLabel etiqueta_fecha_nac = new JLabel("Fecha de Nacimiento: " + fecha_nac);
-                                    JLabel etiqueta_genero = new JLabel("Género: " + genero);
-
-                                    JPanel panel_perfil = new JPanel();
-                                    panel_perfil.setLayout(null);
-                                    etiqueta_nombre.setBounds(10, 10, 200, 30);
-                                    etiqueta_apellido.setBounds(10, 50, 200, 30);
-                                    etiqueta_dni.setBounds(10, 90, 200, 30);
-                                    etiqueta_domicilio.setBounds(10, 130, 300, 30);
-                                    etiqueta_telefono.setBounds(10, 170, 200, 30);  
-                                    etiqueta_obra_social.setBounds(10, 210, 200, 30);
-                                    etiqueta_fecha_nac.setBounds(10, 250, 300, 30);
-                                    etiqueta_genero.setBounds(10, 290, 200, 30);
-                                    panel_perfil.add(etiqueta_nombre);
-                                    panel_perfil.add(etiqueta_apellido);
-                                    panel_perfil.add(etiqueta_dni);
-                                    panel_perfil.add(etiqueta_domicilio);
-                                    panel_perfil.add(etiqueta_telefono);
-                                    panel_perfil.add(etiqueta_obra_social);
-                                    panel_perfil.add(etiqueta_fecha_nac);
-                                    panel_perfil.add(etiqueta_genero);
-
-                                    ventana_perfil.add(panel_perfil);
-                                    ventana_perfil.setVisible(true);
-                                }
-
-                            });
+                            
                         }
                     });
                     ventana_registro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -385,6 +307,92 @@ public class Main {
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setVisible(true);
 
+    }
+
+    // ------------------- Configuramos la ventana principal del programa, pero no la abrimos  --------------------------------- //
+    // La armamos como una clase dentro del main para poder usar las variables creadas en el 
+        
+    public static void interfazVentanaPrincipal(paciente usuario) {  // Una variable usuario que es un tipo de paciente
+
+        JFrame ventana_principal = new JFrame("Co&Ca");
+        ventana_principal.setSize(880, 600);
+        ventana_principal.setLayout(null);
+        ventana_principal.getContentPane().setBackground(new Color(51, 78, 88));
+
+        JLabel etiqueta_principal = new JLabel("Bienvenido al sistema Co&Ca - Elige una opción del menú");
+        etiqueta_principal.setBounds(80, 50, 7000, 50);
+        etiqueta_principal.setFont(new Font("Cambria", Font.BOLD, 25));
+        etiqueta_principal.setForeground(Color.WHITE);
+        ventana_principal.add(etiqueta_principal);
+
+        JButton boton_perfil = new JButton("Mi perfil");
+        boton_perfil.setBounds(250, 250, 100, 30);
+        boton_perfil.setBackground(new Color(216, 191, 216));
+        ventana_principal.add(boton_perfil);
+
+        JButton boton_turno = new JButton("Mis turnos");
+        boton_turno.setBounds(400, 250, 100, 30);
+        boton_turno.setBackground(new Color(216, 191, 216));
+        ventana_principal.add(boton_turno);
+
+        JButton boton_agendar = new JButton("Agendar turno");
+        boton_agendar.setBounds(550, 250, 130, 30);
+        boton_agendar.setBackground(new Color(216, 191, 216));
+        ventana_principal.add(boton_agendar);
+
+        boton_perfil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // ------------------ Abrimos la ventana de perfil del usuario -------------------------- //
+
+                JFrame ventana_perfil = new JFrame("Mi perfil");
+                ventana_perfil.setSize(400, 400);
+                ventana_perfil.setLayout(null);
+
+                // Aquí se agregarían los componentes del perfil del usuario
+                JLabel etiqueta_nombre = new JLabel("- Nombre:   " + usuario.getNombre() );
+                JLabel etiqueta_apellido = new JLabel("- Apellido:   " + usuario.getApellido() );
+                JLabel etiqueta_dni = new JLabel("- DNI:   " + usuario.getDni() );
+                JLabel etiqueta_domicilio = new JLabel("- Domicilio:   " + usuario.getDomicilio() );
+                JLabel etiqueta_telefono = new JLabel("- Teléfono:   " + usuario.getTelefono() );
+                JLabel etiqueta_obra_social = new JLabel("- Obra Social:   " + usuario.getObra_social() );
+                JLabel etiqueta_fecha_nac = new JLabel("- Fecha de Nacimiento:   " + usuario.getFecha_nacimiento() );
+                JLabel etiqueta_genero = new JLabel("- Género:   " + usuario.getGenero() );
+
+                // Incluimos los turnos pendientes del usuario en su perfil
+                int id_usuario = usuario.getId_paciente(); // Obtenemos el ID del paciente que inicio sesion y lo buscamos en la tabla de turnos
+                turnoDAO turnoDAO = new turnoDAO();
+                List<turno> turnos = turnoDAO.obtenerTurnos();
+// BUENO BUSCAR LOS TURNOS !!!!!!!!!!!!!!!11
+
+                JPanel panel_perfil = new JPanel();
+                panel_perfil.setLayout(null);
+                panel_perfil.setBounds(0, 0, 600, 700);
+                etiqueta_nombre.setBounds(10, 10, 200, 30);
+                etiqueta_apellido.setBounds(10, 50, 200, 30);
+                etiqueta_dni.setBounds(10, 90, 200, 30);
+                etiqueta_domicilio.setBounds(10, 130, 300, 30);
+                etiqueta_telefono.setBounds(10, 170, 200, 30);  
+                etiqueta_obra_social.setBounds(10, 210, 200, 30);
+                etiqueta_fecha_nac.setBounds(10, 250, 300, 30);
+                etiqueta_genero.setBounds(10, 290, 200, 30);
+
+                panel_perfil.add(etiqueta_nombre);
+                panel_perfil.add(etiqueta_apellido);
+                panel_perfil.add(etiqueta_dni);
+                panel_perfil.add(etiqueta_domicilio);
+                panel_perfil.add(etiqueta_telefono);
+                panel_perfil.add(etiqueta_obra_social);
+                panel_perfil.add(etiqueta_fecha_nac);
+                panel_perfil.add(etiqueta_genero);
+
+                ventana_perfil.add(panel_perfil);
+                ventana_perfil.setVisible(true);
+            }
+            
+        });
+        ventana_principal.setVisible(true); // Abrimos la ventana principal
     }
 }
 
