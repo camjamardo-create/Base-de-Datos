@@ -2,7 +2,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement; // Importa la clase PreparedStatement para ejecutar sentencias SQL precompiladas
 import java.time.LocalDateTime;
+import java.util.List;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 
 public class turnoDAO {
@@ -31,26 +33,36 @@ public class turnoDAO {
         stmt.setInt(7, tur.getId_agenda());
         stmt.executeUpdate();
     }
+
     // leer turnos
-    public void obtenerTurnos() {
-        String sql = "SELECT * FROM turno";
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                int id_turno = rs.getInt("id_turno");
-                String estado = rs.getString("estado");
-                LocalDateTime fecha = rs.getTimestamp("fecha").toLocalDateTime();
-                String consultorio = rs.getString("consultorio");
-                int id_paciente = rs.getInt("id_paciente");
-                int id_medico = rs.getInt("id_medico");
-                int id_agenda = rs.getInt("id_agenda");
-                turno tur = new turno(id_turno, estado, consultorio, fecha, id_paciente, id_medico, id_agenda);
-                System.out.println(tur);
+    public List<turno> obtenerTurnos() {
+        List<turno> turnos = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM turno";
+            try (PreparedStatement stmt = connection.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id_turno = rs.getInt("id_turno");
+                    String estado = rs.getString("estado");
+                    LocalDateTime fecha = rs.getTimestamp("fecha").toLocalDateTime();
+                    String consultorio = rs.getString("consultorio");
+                    int id_paciente = rs.getInt("id_paciente");
+                    int id_medico = rs.getInt("id_medico");
+                    int id_agenda = rs.getInt("id_agenda");
+                    turno tur = new turno(id_turno, estado, consultorio, fecha, id_paciente, id_medico, id_agenda);
+                    turnos.add(tur);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-    }
+        catch (Exception e) {
+            e.printStackTrace(); 
+        }
+        return turnos;
+    } 
+    
+    
     // actualizar turno
     public void actualizarTurno(turno tur) throws SQLException {
         String sql = "UPDATE turno SET estado=?, fecha=?, consultorio=?, id_paciente=?, id_medico=?, id_agenda=? WHERE id_turno=?";
