@@ -392,9 +392,82 @@ public class Main {
             }
             
         });
+                boton_agendar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame ventana_agendar = new JFrame("Agendar turno");
+                ventana_agendar.setSize(400, 400);
+                ventana_agendar.setLayout(null);
+
+                JLabel etiqueta_fecha = new JLabel("Seleccioná la fecha:");
+                etiqueta_fecha.setBounds(50, 100, 200, 30);
+                ventana_agendar.add(etiqueta_fecha);
+
+                JSpinner spinner_fecha = new JSpinner(new SpinnerDateModel());
+                JSpinner.DateEditor editor_fecha = new JSpinner.DateEditor(spinner_fecha, "dd/MM/yyyy");
+                spinner_fecha.setEditor(editor_fecha);
+                spinner_fecha.setBounds(250, 100, 100, 30);
+                ventana_agendar.add(spinner_fecha);
+
+                JLabel etiqueta_hora = new JLabel("Seleccioná la hora:");
+                etiqueta_hora.setBounds(50, 150, 200, 30);
+                ventana_agendar.add(etiqueta_hora);
+
+                JLabel etiqueta_especialidad = new JLabel("Elegir especialidad:");
+                etiqueta_especialidad.setBounds(50, 200, 200, 30);
+                ventana_agendar.add(etiqueta_especialidad);
+
+                JComboBox<String> combo_especialidades = new JComboBox<>();
+                combo_especialidades.addItem("Cardiología");
+                combo_especialidades.addItem("Dermatología");
+                combo_especialidades.addItem("Pediatría");
+                combo_especialidades.setBounds(250, 200, 100, 30);
+                ventana_agendar.add(combo_especialidades);
+
+                JLabel elegir_medico = new JLabel("Elegir médico:");
+                elegir_medico.setBounds(50, 250, 200, 30);
+                ventana_agendar.add(elegir_medico);
+
+                JComboBox<String> combo_medicos = new JComboBox<>();
+                combo_medicos.addItem("Médico 1");
+                combo_medicos.addItem("Médico 2");
+                combo_medicos.addItem("Médico 3");
+                combo_medicos.setBounds(250, 200, 100, 30);
+                ventana_agendar.add(combo_medicos);
+
+                JSpinner spinner_hora = new JSpinner(new SpinnerDateModel());
+                JSpinner.DateEditor editor_hora = new JSpinner.DateEditor(spinner_hora, "HH:mm");
+                spinner_hora.setEditor(editor_hora);
+                spinner_hora.setBounds(250, 150, 100, 30);
+                ventana_agendar.add(spinner_hora);
+
+                JButton boton_confirmar = new JButton("Confirmar");
+                boton_confirmar.setBounds(150, 200, 100, 30);
+                ventana_agendar.add(boton_confirmar);
+
+                ventana_agendar.setVisible(true);
+            }
+
+        });
+        boton_turno.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame ventana_turnos = new JFrame("Mis turnos");
+                ventana_turnos.setSize(400, 400);
+                ventana_turnos.setLayout(null);
+
+                // Aquí se agregarían los componentes para ver los turnos del usuario
+                JLabel etiqueta_info = new JLabel("Funcionalidad para ver turnos próximamente.");
+                etiqueta_info.setBounds(50, 50, 300, 30);
+                ventana_turnos.add(etiqueta_info);
+
+                ventana_turnos.setVisible(true);
+            }
+        });
         ventana_principal.setVisible(true); // Abrimos la ventana principal
     }
 }
+
 
 
 
