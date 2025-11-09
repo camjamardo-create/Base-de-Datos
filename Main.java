@@ -457,37 +457,38 @@ public class Main {
                         combo_medicos.setBounds(50, 50, 200, 30);
                         ventana_medicos.add(combo_medicos);
 
-                        JButton boton_agendar = new JButton("Agendar");
-                        boton_agendar.setBounds(150, 100, 100, 30);
-                        ventana_medicos.add(boton_agendar);
+                        JButton boton_fechahora = new JButton("Buscar turnos");
+                        boton_fechahora.setBounds(150, 100, 100, 30);
+                        ventana_medicos.add(boton_fechahora);
+
+                        boton_fechahora.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                // Elegimos la fecha y hora del turno
+                                JFrame ventana_fecha = new JFrame("Seleccionar fecha");
+                                ventana_fecha.setSize(400, 400);
+                                ventana_fecha.setLayout(null);
+                                
+                                JSpinner selector_fecha = new JSpinner(new SpinnerDateModel());
+                                selector_fecha.setBounds(100, 100, 200, 30);
+                                ventana_fecha.add(selector_fecha);
+
+                                // Acá mostramos los turnos disponibles para la fecha seleccionada
+
+                                JComboBox<String> combo_horas = new JComboBox<>();
+                                combo_horas.addItem("09:00");
+                                combo_horas.setBounds(100, 150, 200, 30);
+                                ventana_fecha.add(combo_horas);
+
+                                JButton boton_finalizar = new JButton("Finalizar");
+                                boton_finalizar.setBounds(150, 200, 100, 30);
+                                ventana_fecha.add(boton_finalizar);
+                                ventana_fecha.setVisible(true);
+
+                            }
+                        });
 
                         ventana_medicos.setVisible(true);
-                    }
-                });
-                boton_agendar.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Elegimos la fecha y hora del turno
-                        JFrame ventana_fecha = new JFrame("Seleccionar fecha y hora");
-                        ventana_fecha.setSize(400, 400);
-                        ventana_fecha.setLayout(null);
-                        
-                        JSpinner selector_fecha = new JSpinner(new SpinnerDateModel());
-                        selector_fecha.setBounds(100, 100, 200, 30);
-                        ventana_fecha.add(selector_fecha);
-
-                        // Acá mostramos los turnos disponibles para la fecha seleccionada
-
-                        JComboBox<String> combo_horas = new JComboBox<>();
-                        combo_horas.addItem("09:00");
-                        combo_horas.setBounds(100, 150, 200, 30);
-                        ventana_fecha.add(combo_horas);
-
-                        JButton boton_finalizar = new JButton("Finalizar");
-                        boton_finalizar.setBounds(150, 200, 100, 30);
-                        ventana_fecha.add(boton_finalizar);
-                        ventana_fecha.setVisible(true);
-
                     }
                 });
             }
@@ -644,6 +645,7 @@ public class Main {
         ventana_principal.setVisible(true); // Abrimos la ventana principal
     }
 }
+
 
 
 
