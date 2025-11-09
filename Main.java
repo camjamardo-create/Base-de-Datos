@@ -417,26 +417,13 @@ public class Main {
         });
 
         // --------- Funcionalidad boton agendar turno --------------
-            boton_agendar.addActionListener(new ActionListener() {
+
+        boton_agendar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame ventana_agendar = new JFrame("Agendar turno");
                 ventana_agendar.setSize(400, 400);
                 ventana_agendar.setLayout(null);
-
-                JLabel etiqueta_fecha = new JLabel("Seleccioná la fecha:");
-                etiqueta_fecha.setBounds(50, 100, 200, 30);
-                ventana_agendar.add(etiqueta_fecha);
-
-                JSpinner spinner_fecha = new JSpinner(new SpinnerDateModel());
-                JSpinner.DateEditor editor_fecha = new JSpinner.DateEditor(spinner_fecha, "dd/MM/yyyy");
-                spinner_fecha.setEditor(editor_fecha);
-                spinner_fecha.setBounds(250, 100, 100, 30);
-                ventana_agendar.add(spinner_fecha);
-
-                JLabel etiqueta_hora = new JLabel("Seleccioná la hora:");
-                etiqueta_hora.setBounds(50, 150, 200, 30);
-                ventana_agendar.add(etiqueta_hora);
 
                 JLabel etiqueta_especialidad = new JLabel("Elegir especialidad:");
                 etiqueta_especialidad.setBounds(50, 200, 200, 30);
@@ -449,35 +436,78 @@ public class Main {
                 combo_especialidades.setBounds(250, 200, 100, 30);
                 ventana_agendar.add(combo_especialidades);
 
-                JLabel elegir_medico = new JLabel("Elegir médico:");
-                elegir_medico.setBounds(50, 250, 200, 30);
-                ventana_agendar.add(elegir_medico);
-
-                JComboBox<String> combo_medicos = new JComboBox<>();
-                combo_medicos.addItem("Médico 1");
-                combo_medicos.addItem("Médico 2");
-                combo_medicos.addItem("Médico 3");
-                combo_medicos.setBounds(250, 250, 100, 30);
-                ventana_agendar.add(combo_medicos);
-
-                JSpinner spinner_hora = new JSpinner(new SpinnerDateModel());
-                JSpinner.DateEditor editor_hora = new JSpinner.DateEditor(spinner_hora, "HH:mm");
-                spinner_hora.setEditor(editor_hora);
-                spinner_hora.setBounds(250, 150, 100, 30);
-                ventana_agendar.add(spinner_hora);
-
                 JButton boton_confirmar = new JButton("Confirmar");
-                boton_confirmar.setBounds(150, 300, 100, 30);
+                boton_confirmar.setBounds(150, 200, 100, 30);
                 ventana_agendar.add(boton_confirmar);
 
-                // ---------- Funcionalidad del boton confirmar turno ------------
-                boton_confirmar.addActionListener(new ActionListener() {
+                ventana_agendar.setVisible(true);
+
+                boton_confirmar.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                    
-                        // ACA ME QUEDE!! _____________________________________________________________________________________--__________________________
+                        JFrame ventana_medicos = new JFrame("Seleccionar médico");
+                        ventana_medicos.setSize(400, 400);
+                        ventana_medicos.setLayout(null);
+
+                        // Aquí se agregarían los componentes para seleccionar el médico
+                        JComboBox<String> combo_medicos = new JComboBox<>();
+                        combo_medicos.addItem("Médico 1");
+                        combo_medicos.addItem("Médico 2");
+                        combo_medicos.addItem("Médico 3");
+                        combo_medicos.setBounds(50, 50, 200, 30);
+                        ventana_medicos.add(combo_medicos);
+
+                        JButton boton_agendar = new JButton("Agendar");
+                        boton_agendar.setBounds(150, 100, 100, 30);
+                        ventana_medicos.add(boton_agendar);
+
+                        ventana_medicos.setVisible(true);
                     }
                 });
+                boton_agendar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Elegimos la fecha y hora del turno
+                        JFrame ventana_fecha = new JFrame("Seleccionar fecha y hora");
+                        ventana_fecha.setSize(400, 400);
+                        ventana_fecha.setLayout(null);
+                        
+                        JSpinner selector_fecha = new JSpinner(new SpinnerDateModel());
+                        selector_fecha.setBounds(100, 100, 200, 30);
+                        ventana_fecha.add(selector_fecha);
+
+                        // Acá mostramos los turnos disponibles para la fecha seleccionada
+
+                        JComboBox<String> combo_horas = new JComboBox<>();
+                        combo_horas.addItem("09:00");
+                        combo_horas.setBounds(100, 150, 200, 30);
+                        ventana_fecha.add(combo_horas);
+
+                        JButton boton_finalizar = new JButton("Finalizar");
+                        boton_finalizar.setBounds(150, 200, 100, 30);
+                        ventana_fecha.add(boton_finalizar);
+                        ventana_fecha.setVisible(true);
+
+                    }
+                });
+            }
+        });
+
+        boton_turno.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame ventana_turnos = new JFrame("Mis turnos");
+                ventana_turnos.setSize(400, 400);
+                ventana_turnos.setLayout(null);
+
+                // Aquí se agregarían los componentes para ver los turnos del usuario
+                JLabel etiqueta_info = new JLabel("Funcionalidad para ver turnos próximamente.");
+                etiqueta_info.setBounds(50, 50, 300, 30);
+                ventana_turnos.add(etiqueta_info);
+
+                ventana_turnos.setVisible(true);
+            }
+        });
 
                 ventana_agendar.setVisible(true);
             }
@@ -614,6 +644,7 @@ public class Main {
         ventana_principal.setVisible(true); // Abrimos la ventana principal
     }
 }
+
 
 
 
