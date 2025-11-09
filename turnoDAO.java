@@ -21,7 +21,7 @@ public class turnoDAO {
     }
     // crear turno
     public void crearTurno(turno tur) throws SQLException {
-        String sql = "INSERT INTO turno (id_turno, estado, fecha, consultorio, id_paciente, id_medico, id_agenda) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO turno (id_turno, estado, fecha, consultorio, id_paciente, id_medico, id_agenda) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
          
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, tur.getId_turno());
@@ -31,6 +31,7 @@ public class turnoDAO {
         stmt.setInt(5, tur.getId_paciente());
         stmt.setInt(6, tur.getId_medico());
         stmt.setInt(7, tur.getId_agenda());
+        stmt.setString(8, tur.getEspecialidad());
         stmt.executeUpdate();
     }
 
@@ -49,7 +50,8 @@ public class turnoDAO {
                     int id_paciente = rs.getInt("id_paciente");
                     int id_medico = rs.getInt("id_medico");
                     int id_agenda = rs.getInt("id_agenda");
-                    turno tur = new turno(id_turno, estado, consultorio, fecha, id_paciente, id_medico, id_agenda);
+                    String especialidad = rs.getString("especialidad");
+                    turno tur = new turno(id_turno, estado, consultorio, fecha, id_paciente, id_medico, id_agenda, especialidad);
                     turnos.add(tur);
                 }
             } catch (SQLException e) {
@@ -74,8 +76,11 @@ public class turnoDAO {
         stmt.setInt(5, tur.getId_medico());
         stmt.setInt(6, tur.getId_agenda());
         stmt.setInt(7, tur.getId_turno());
+        stmt.setString(8, tur.getEspecialidad());
         stmt.executeUpdate();
     }
+
+    
     // eliminar turno
     public void eliminarTurno(int id_turno) throws SQLException {
         String sql = "DELETE FROM turno WHERE id_turno=?";
@@ -83,6 +88,8 @@ public class turnoDAO {
         stmt.setInt(1, id_turno);
         stmt.executeUpdate();
     }
+
+
     // cerrar conexion
     public void cerrarConexion() {
         try {
