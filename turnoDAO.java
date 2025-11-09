@@ -21,17 +21,16 @@ public class turnoDAO {
     }
     // crear turno
     public void crearTurno(turno tur) throws SQLException {
-        String sql = "INSERT INTO turno (id_turno, estado, fecha, consultorio, id_paciente, id_medico, id_agenda) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO turno (estado, fecha, consultorio, id_paciente, id_medico, id_agenda, especialidad) VALUES (?, ?, ?, ?, ?, ?, ?)";
          
         PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setInt(1, tur.getId_turno());
-        stmt.setString(2, tur.getEstado());
-        stmt.setTimestamp(3, java.sql.Timestamp.valueOf(tur.getFecha()));
-        stmt.setString(4, tur.getConsultorio());
-        stmt.setInt(5, tur.getId_paciente());
-        stmt.setInt(6, tur.getId_medico());
-        stmt.setInt(7, tur.getId_agenda());
-        stmt.setString(8, tur.getEspecialidad());
+        stmt.setString(1, tur.getEstado());
+        stmt.setTimestamp(2, java.sql.Timestamp.valueOf(tur.getFecha()));
+        stmt.setString(3, tur.getConsultorio());
+        stmt.setInt(4, tur.getId_paciente());
+        stmt.setInt(5, tur.getId_medico());
+        stmt.setInt(6, tur.getId_agenda());
+        stmt.setString(7, tur.getEspecialidad());
         stmt.executeUpdate();
     }
 
@@ -102,3 +101,4 @@ public class turnoDAO {
         }
     }
 }    
+
