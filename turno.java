@@ -5,6 +5,7 @@ public class turno {
     private String estado;
     private String consultorio;
     private LocalDateTime fecha;
+    private String especialidad;
 
     // claves foraneas
     private int id_paciente;
@@ -77,9 +78,15 @@ public class turno {
     public void setId_agenda(int id_agenda) {
         this.id_agenda = id_agenda;
     }
+    public String getEspecialidad() {
+        return especialidad;
+    }
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
 
     // constructor 
-    public turno(int id_turno, String estado, String consultorio, LocalDateTime fecha, int id_paciente, int id_medico, int id_agenda) {
+    public turno(int id_turno, String estado, String consultorio, LocalDateTime fecha, int id_paciente, int id_medico, int id_agenda, String especialidad) {
         this.id_turno = id_turno;
         this.estado = estado;
         this.consultorio = consultorio;
@@ -87,9 +94,11 @@ public class turno {
         this.id_paciente = id_paciente;
         this.id_medico = id_medico;
         this.id_agenda = id_agenda;
+        this.especialidad = especialidad;
     }
 
 }
+
 
 
 
