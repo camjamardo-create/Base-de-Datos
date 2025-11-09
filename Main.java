@@ -1,12 +1,14 @@
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.awt.Color;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -347,8 +349,23 @@ public class Main {
                 // ------------------ Abrimos la ventana de perfil del usuario -------------------------- //
 
                 JFrame ventana_perfil = new JFrame("Mi perfil");
-                ventana_perfil.setSize(400, 400);
+                ventana_perfil.setSize(600, 600);
                 ventana_perfil.setLayout(null);
+                
+                Color fondo = new Color(250, 240, 250);
+                Color rosa = new Color(255, 182, 193);
+                Color violeta = new Color(216, 191, 216);
+
+                JPanel panel_perfil = new JPanel();
+                panel_perfil.setLayout(null);
+                panel_perfil.setBackground(fondo);
+                panel_perfil.setBounds(0, 0, 600, 700);
+                
+                JLabel titulo = new JLabel("Tu perfil");
+                titulo.setFont(new Font("Cambria", Font.BOLD, 26));
+                titulo.setBounds(200, 10, 300, 40);
+                titulo.setForeground(new Color(80, 0, 80));
+                panel_perfil.add(titulo);
 
                 // Aquí se agregarían los componentes del perfil del usuario
                 JLabel etiqueta_nombre = new JLabel("- Nombre:   " + usuario.getNombre() );
@@ -360,23 +377,14 @@ public class Main {
                 JLabel etiqueta_fecha_nac = new JLabel("- Fecha de Nacimiento:   " + usuario.getFecha_nacimiento() );
                 JLabel etiqueta_genero = new JLabel("- Género:   " + usuario.getGenero() );
 
-                // Incluimos los turnos pendientes del usuario en su perfil
-                int id_usuario = usuario.getId_paciente(); // Obtenemos el ID del paciente que inicio sesion y lo buscamos en la tabla de turnos
-                turnoDAO turnoDAO = new turnoDAO();
-                List<turno> turnos = turnoDAO.obtenerTurnos();
-// BUENO BUSCAR LOS TURNOS !!!!!!!!!!!!!!!11
-
-                JPanel panel_perfil = new JPanel();
-                panel_perfil.setLayout(null);
-                panel_perfil.setBounds(0, 0, 600, 700);
-                etiqueta_nombre.setBounds(10, 10, 200, 30);
-                etiqueta_apellido.setBounds(10, 50, 200, 30);
-                etiqueta_dni.setBounds(10, 90, 200, 30);
-                etiqueta_domicilio.setBounds(10, 130, 300, 30);
-                etiqueta_telefono.setBounds(10, 170, 200, 30);  
-                etiqueta_obra_social.setBounds(10, 210, 200, 30);
-                etiqueta_fecha_nac.setBounds(10, 250, 300, 30);
-                etiqueta_genero.setBounds(10, 290, 200, 30);
+                etiqueta_nombre.setBounds(10, 30, 200, 30);
+                etiqueta_apellido.setBounds(10, 70, 200, 30);
+                etiqueta_dni.setBounds(10, 110, 200, 30);
+                etiqueta_domicilio.setBounds(10, 150, 300, 30);
+                etiqueta_telefono.setBounds(10, 190, 200, 30);  
+                etiqueta_obra_social.setBounds(10, 230, 200, 30);
+                etiqueta_fecha_nac.setBounds(10, 270, 300, 30);
+                etiqueta_genero.setBounds(10, 310, 200, 30);
 
                 panel_perfil.add(etiqueta_nombre);
                 panel_perfil.add(etiqueta_apellido);
@@ -387,12 +395,29 @@ public class Main {
                 panel_perfil.add(etiqueta_fecha_nac);
                 panel_perfil.add(etiqueta_genero);
 
+                // Boton volver para atras y su funcion!!
+                JButton boton_volver = new JButton("Volver");
+                boton_volver.setBounds(220, 500, 150, 40);
+                boton_volver.setFont(new Font("Cambria", Font.BOLD, 16));
+                boton_volver.setBackground(rosa);
+                panel_perfil.add(boton_volver);
+
+                boton_volver.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                    ventana_perfil.dispose(); 
+                    ventana_principal.setVisible(true); 
+                    }
+                });
+
                 ventana_perfil.add(panel_perfil);
                 ventana_perfil.setVisible(true);
             }
-            
+
         });
-                boton_agendar.addActionListener(new ActionListener() {
+
+        // --------- Funcionalidad boton agendar turno --------------
+            boton_agendar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame ventana_agendar = new JFrame("Agendar turno");
@@ -432,7 +457,7 @@ public class Main {
                 combo_medicos.addItem("Médico 1");
                 combo_medicos.addItem("Médico 2");
                 combo_medicos.addItem("Médico 3");
-                combo_medicos.setBounds(250, 200, 100, 30);
+                combo_medicos.setBounds(250, 250, 100, 30);
                 ventana_agendar.add(combo_medicos);
 
                 JSpinner spinner_hora = new JSpinner(new SpinnerDateModel());
@@ -442,32 +467,153 @@ public class Main {
                 ventana_agendar.add(spinner_hora);
 
                 JButton boton_confirmar = new JButton("Confirmar");
-                boton_confirmar.setBounds(150, 200, 100, 30);
+                boton_confirmar.setBounds(150, 300, 100, 30);
                 ventana_agendar.add(boton_confirmar);
+
+                // ---------- Funcionalidad del boton confirmar turno ------------
+                boton_confirmar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                    
+                        // ACA ME QUEDE!! _____________________________________________________________________________________--__________________________
+                    }
+                });
 
                 ventana_agendar.setVisible(true);
             }
-
-        });
+            });
+        
+        // -------------- Funcionalidad del boton para manejar los turnos del usuario -----------------------
         boton_turno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame ventana_turnos = new JFrame("Mis turnos");
-                ventana_turnos.setSize(400, 400);
+                ventana_turnos.setSize(700, 500);
                 ventana_turnos.setLayout(null);
+                ventana_turnos.getContentPane().setBackground(new Color(230, 245, 255)); 
+                ventana_turnos.setLocationRelativeTo(null);
 
-                // Aquí se agregarían los componentes para ver los turnos del usuario
-                JLabel etiqueta_info = new JLabel("Funcionalidad para ver turnos próximamente.");
-                etiqueta_info.setBounds(50, 50, 300, 30);
-                ventana_turnos.add(etiqueta_info);
+                JLabel titulo = new JLabel("Tus turnos");
+                titulo.setFont(new Font("Cambria", Font.BOLD, 24));
+                titulo.setForeground(new Color(50, 60, 120));
+                titulo.setBounds(300, 20, 200, 40);
+                ventana_turnos.add(titulo);
 
+                // Incluimos los turnos pendientes del usuario 
+                int id_usuario = usuario.getId_paciente(); // Obtenemos el ID del paciente que inicio sesion y lo buscamos en la tabla de turnos
+                turnoDAO turnoDAO = new turnoDAO();
+                List<turno> turnos = turnoDAO.obtenerTurnos();
+
+                Boolean tieneTurno = false;
+                int y = 70;
+
+                // Guardamos los checkboxes con sus turnos asociados
+                List<JCheckBox> checkboxes = new ArrayList<>();
+                List<turno> turnosUsuario = new ArrayList<>();
+
+
+                for (turno tur : turnos) {                    
+                    if (tur.getId_paciente() == id_usuario && tur.getEstado().equals("Pendiente")) {
+                        tieneTurno = true;
+
+                        //  Okis aca encontramos un turno, lo mostramos pero primero cambiamos la fecha 
+                        DateTimeFormatter formatoUsuario = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
+                        String fecha_linda = tur.getFecha().format(formatoUsuario);
+
+                        JCheckBox casilla = new JCheckBox(tur.getEspecialidad() + " - " + fecha_linda + " (" + tur.getConsultorio() + ")");
+                        casilla.setFont(new Font("Cambria", Font.PLAIN, 14));
+                        casilla.setBackground(new Color(230, 245, 255));
+                        casilla.setBounds(60, y, 600, 25);
+                        ventana_turnos.add(casilla);
+
+                        checkboxes.add(casilla);
+                        turnosUsuario.add(tur);
+
+                        y += 30;
+
+                    } else if (tur.getId_paciente() == id_usuario && tur.getEstado().equals("Atrasado")) {
+                        // ACA HABRIA QUE VER COMO CHEQUEAR QUE UN TURNO ESTE ATRASADO!!!!!!!!!!!!__________________________________________________________________________----
+                        tieneTurno = true;
+                        DateTimeFormatter formatoUsuario = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
+                        String fecha_linda = tur.getFecha().format(formatoUsuario);
+                            
+                        JLabel etiquetaFecha = new JLabel("- Turno perdido de " + tur.getEspecialidad() + " el " + fecha_linda);
+                        etiquetaFecha.setFont(new Font("Cambria", Font.PLAIN, 14));
+                        etiquetaFecha.setBounds(60, y + 20, 450, 25);
+                        ventana_turnos.add(etiquetaFecha);
+                        y += 30;
+                    }
+                }
+                
+                if (!tieneTurno) {
+                    JLabel etiqueta_turno_hallado = new JLabel("- No hay turnos pendientes");
+                    etiqueta_turno_hallado.setFont(new Font("Cambria", Font.PLAIN, 15));
+                    etiqueta_turno_hallado.setBounds(150, 250, 250, 25);
+                    ventana_turnos.add(etiqueta_turno_hallado);
+                }
+                
+                // Boton volver para atras y su funcion!!
+                JButton boton_volver = new JButton("Volver");
+                boton_volver.setBounds(200, 400, 150, 40);
+                boton_volver.setFont(new Font("Cambria", Font.BOLD, 16));
+                boton_volver.setBackground(new Color(255, 185, 193));
+                ventana_turnos.add(boton_volver);
+
+                boton_volver.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                    
+                    ventana_turnos.dispose(); 
+                    ventana_principal.setVisible(true); 
+                    }
+                });
+
+                // Boton para cancelar turnos  
+                JButton boton_cancelar = new JButton("Cancelar seleccionados");
+                boton_cancelar.setBounds(370, 400, 220, 40);
+                boton_cancelar.setFont(new Font("Cambria", Font.BOLD, 16));
+                boton_cancelar.setBackground(new Color(216, 191, 216));
+                ventana_turnos.add(boton_cancelar);
+
+                boton_cancelar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e2) {
+                        List<Integer> turnosACancelar = new ArrayList<>();
+
+                        for (int i = 0; i < checkboxes.size(); i++) {
+                            if (checkboxes.get(i).isSelected()) {
+                                turnosACancelar.add(turnosUsuario.get(i).getId_turno());
+                            }
+                        }
+
+                        
+                        int confirmar = JOptionPane.showConfirmDialog(ventana_turnos,"¿Seguro que queres cancelar los turnos seleccionados?", "Confirmar cancelación", JOptionPane.YES_NO_OPTION);
+
+                        if (confirmar == JOptionPane.YES_OPTION) {
+                            for (int id_turno : turnosACancelar) {
+                                try {
+                                    turnoDAO.eliminarTurno(id_turno);
+                                } catch (SQLException ex) {
+                                    ex.printStackTrace();
+                                    JOptionPane.showMessageDialog(ventana_turnos, "Error al cancelar el turno: " + ex.getMessage());
+                                }
+                            }
+                            JOptionPane.showMessageDialog(ventana_turnos, "Turnos cancelados con éxito.");
+                            ventana_turnos.dispose();
+                        }
+                    }
+                
+                
+                });
+            
                 ventana_turnos.setVisible(true);
+
             }
         });
+
         ventana_principal.setVisible(true); // Abrimos la ventana principal
     }
 }
-
 
 
 
