@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,6 +33,7 @@ public class Main {
         boton_inicio.setFont(new Font("Cambria", Font.BOLD, 18));
         boton_inicio.setBackground(new Color(255, 182, 193));
         ventana.add(boton_inicio);
+        
 
         JButton boton_registro = new JButton("Registrarse");
         boton_registro.setBounds(210, 220, 150, 50);
@@ -79,6 +81,8 @@ public class Main {
                 boton_enviar.setBounds(250, 250, 100, 30);
                 boton_enviar.setBackground(new Color(216, 191, 216));
                 ventana_inicio.add(boton_enviar);
+
+                ventana_inicio.getRootPane().setDefaultButton(boton_enviar); // Para que tome el enter pq soy vaga
 
                 JTextArea cartel_info = new JTextArea();
                 cartel_info.setEditable(false);
@@ -253,7 +257,7 @@ public class Main {
                     boton_registrar.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                String dnitexto = campo_dni_registro.getText().trim();
+                            String dnitexto = campo_dni_registro.getText().trim();
                             try {
                                 if (dnitexto.isEmpty()) {
                                     JOptionPane.showMessageDialog(ventana_registro, "El DNI no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -416,108 +420,216 @@ public class Main {
 
         });
 
-        // --------- Funcionalidad boton agendar turno --------------
+        // ------------------------------- Funcionalidad boton agendar turno ------------------------------
 
         boton_agendar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Ventana principal para agendar
+                ventana_principal.dispose();
                 JFrame ventana_agendar = new JFrame("Agendar turno");
-                ventana_agendar.setSize(400, 400);
+                ventana_agendar.setSize(700, 500);
                 ventana_agendar.setLayout(null);
+                ventana_agendar.getContentPane().setBackground(new Color(230, 245, 255));
 
-                JLabel etiqueta_especialidad = new JLabel("Elegir especialidad:");
-                etiqueta_especialidad.setBounds(50, 200, 200, 30);
+                JLabel etiqueta_especialidad = new JLabel("Elegir servicio:");
+                etiqueta_especialidad.setBounds(50, 50, 200, 30);
+                etiqueta_especialidad.setFont(new Font("Cambria", Font.PLAIN, 16));
                 ventana_agendar.add(etiqueta_especialidad);
 
                 JComboBox<String> combo_especialidades = new JComboBox<>();
                 combo_especialidades.addItem("Cardiología");
                 combo_especialidades.addItem("Dermatología");
                 combo_especialidades.addItem("Pediatría");
-                combo_especialidades.setBounds(250, 200, 100, 30);
+                combo_especialidades.setBounds(250, 50, 150, 30);
+                combo_especialidades.setBackground(new Color(255, 255, 255));
                 ventana_agendar.add(combo_especialidades);
 
                 JButton boton_confirmar = new JButton("Confirmar");
-                boton_confirmar.setBounds(150, 200, 100, 30);
+                boton_confirmar.setBounds(350, 250, 120, 35);
+                boton_confirmar.setBackground(new Color(216, 191, 216));
+                boton_confirmar.setFont(new Font("Cambria", Font.BOLD, 16));
                 ventana_agendar.add(boton_confirmar);
+
+                // Boton volver y su funcionalidad
+                JButton boton_volver = new JButton("Volver");
+                boton_volver.setBounds(150, 250, 120, 35);
+                boton_volver.setFont(new Font("Cambria", Font.BOLD, 16));
+                boton_volver.setBackground(new Color(255, 134, 134));
+                ventana_agendar.add(boton_volver);
+
+                boton_volver.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ventana_agendar.setVisible(false); 
+                        ventana_principal.setVisible(true); 
+                        }
+                });
 
                 ventana_agendar.setVisible(true);
 
+                // ---------------- Accion del boton confirmar----------------
                 boton_confirmar.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        JFrame ventana_medicos = new JFrame("Seleccionar médico");
-                        ventana_medicos.setSize(400, 400);
-                        ventana_medicos.setLayout(null);
+                        try{
+                            ventana_agendar.dispose();
+                            JFrame ventana_agendar_t = new JFrame("Seleccionar turno");
+                            ventana_agendar_t.setSize(700, 600);
+                            ventana_agendar_t.setLayout(null);
+                
 
-                        // Aquí se agregarían los componentes para seleccionar el médico
-                        JComboBox<String> combo_medicos = new JComboBox<>();
-                        combo_medicos.addItem("Médico 1");
-                        combo_medicos.addItem("Médico 2");
-                        combo_medicos.addItem("Médico 3");
-                        combo_medicos.setBounds(50, 50, 200, 30);
-                        ventana_medicos.add(combo_medicos);
+                            JLabel etiqueta_medico = new JLabel("Seleccioná un turno:");
+                            etiqueta_medico.setBounds(50, 30, 200, 30);
+                            etiqueta_medico.setFont(new Font("Cambria", Font.PLAIN, 16));
+                            ventana_agendar_t.add(etiqueta_medico);
 
-                        JButton boton_fechahora = new JButton("Buscar turnos");
-                        boton_fechahora.setBounds(150, 100, 100, 30);
-                        ventana_medicos.add(boton_fechahora);
+                            // Boton volver y su funcionalidad
+                            JButton boton_volver = new JButton("Volver");
+                            boton_volver.setBounds(100, 450, 100, 30);
+                            boton_volver.setFont(new Font("Cambria", Font.BOLD, 16));
+                            boton_volver.setBackground(new Color(255, 134, 134));
+                            ventana_agendar_t.add(boton_volver);
 
-                        boton_fechahora.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                // Elegimos la fecha y hora del turno
-                                JFrame ventana_fecha = new JFrame("Seleccionar fecha");
-                                ventana_fecha.setSize(400, 400);
-                                ventana_fecha.setLayout(null);
-                                
-                                JSpinner selector_fecha = new JSpinner(new SpinnerDateModel());
-                                selector_fecha.setBounds(100, 100, 200, 30);
-                                ventana_fecha.add(selector_fecha);
+                            boton_volver.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                ventana_agendar_t.setVisible(false); 
+                                ventana_agendar.setVisible(true); 
+                                }
+                            });
 
-                                // Acá mostramos los turnos disponibles para la fecha seleccionada
+                            // Boton confirmar turno
+                            JButton boton_confirmar_turno = new JButton("Confirmar");
+                            boton_confirmar_turno.setBounds(500, 450, 120, 30);
+                            boton_confirmar_turno.setFont(new Font("Cambria", Font.BOLD, 16));
+                            boton_confirmar_turno.setBackground(new Color(216, 191, 216));
+                            ventana_agendar_t.add(boton_confirmar_turno);
 
-                                JComboBox<String> combo_horas = new JComboBox<>();
-                                combo_horas.addItem("09:00");
-                                combo_horas.setBounds(100, 150, 200, 30);
-                                ventana_fecha.add(combo_horas);
+                            turnoDAO turnoDAO = new turnoDAO();
+                            List<turno> turnos = turnoDAO.obtenerTurnos();
 
-                                JButton boton_finalizar = new JButton("Finalizar");
-                                boton_finalizar.setBounds(150, 200, 100, 30);
-                                ventana_fecha.add(boton_finalizar);
-                                ventana_fecha.setVisible(true);
+                            int y = 70;
+                            List<JCheckBox> checkboxes_select = new ArrayList<>();
+                            List<turno> turnosUsuario_a_dar = new ArrayList<>();
 
+                            for (turno tur : turnos) {
+                                if (tur.getAgenda() != null && tur.getAgenda().getMedico() != null) {
+                                    System.out.println(combo_especialidades.getSelectedItem());
+                                    System.out.println(tur.getEstado());
+                                    if ("Cardiología".equals(String.valueOf(combo_especialidades.getSelectedItem())) && "Cardiología".equals(tur.getEspecialidad()) && "Disponible".equals(tur.getEstado())) {
+                                        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
+                                        String fecha_linda = tur.getFecha().format(formato);
+                                        String nombre_med = tur.getAgenda().getMedico().getNombre();
+                                        String apellido_med = tur.getAgenda().getMedico().getApellido();
+
+                                        JCheckBox casilla_turno = new JCheckBox(nombre_med + " " + apellido_med + " - " + tur.getEspecialidad() + " - " + fecha_linda );
+                                        casilla_turno.setFont(new Font("Cambria", Font.PLAIN, 14));
+                                        casilla_turno.setBackground(new Color(230, 245, 255));
+                                        casilla_turno.setBounds(60, y, 600, 25);
+                                        ventana_agendar_t.add(casilla_turno);
+
+                                        checkboxes_select.add(casilla_turno);
+                                        turnosUsuario_a_dar.add(tur);
+                                        y += 30;
+
+                                    } else if ("Dermatología".equals(combo_especialidades.getSelectedItem())  && "Dermatología".equals(tur.getEspecialidad()) && "Disponible".equals(tur.getEstado())) {
+                                        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
+                                        String fecha_linda = tur.getFecha().format(formato);
+
+                                        String nombre_med = tur.getAgenda().getMedico().getNombre();
+                                        String apellido_med = tur.getAgenda().getMedico().getApellido();
+
+                                        JCheckBox casilla_turno = new JCheckBox(nombre_med + " " +  apellido_med + " - " + tur.getEspecialidad() + " - " + fecha_linda );
+                                        casilla_turno.setFont(new Font("Cambria", Font.PLAIN, 14));
+                                        casilla_turno.setBackground(new Color(230, 245, 255));
+                                        casilla_turno.setBounds(60, y, 600, 25);
+                                        ventana_agendar_t.add(casilla_turno);
+
+                                        checkboxes_select.add(casilla_turno);
+                                        turnosUsuario_a_dar.add(tur);
+                                        y += 30;
+
+                                    } else if ("Pediatría".equals(combo_especialidades.getSelectedItem()) && "Pediatría".equals(tur.getEspecialidad()) && "Disponible".equals(tur.getEstado())) {
+                                                                        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
+                                        String fecha_linda = tur.getFecha().format(formato);
+
+                                        String nombre_med = tur.getAgenda().getMedico().getNombre();
+                                        String apellido_med = tur.getAgenda().getMedico().getApellido();
+
+                                        JCheckBox casilla_turno = new JCheckBox(nombre_med + " " + apellido_med + " - " + tur.getEspecialidad() + " - " + fecha_linda );
+                                        casilla_turno.setFont(new Font("Cambria", Font.PLAIN, 14));
+                                        casilla_turno.setBackground(new Color(230, 245, 255));
+                                        casilla_turno.setBounds(60, y, 600, 25);
+                                        ventana_agendar_t.add(casilla_turno);
+
+                                        checkboxes_select.add(casilla_turno);
+                                        turnosUsuario_a_dar.add(tur);
+                                        y += 30;
+                                    }
+                                    ventana_agendar_t.setVisible(true);
+                                }
                             }
-                        });
 
-                        ventana_medicos.setVisible(true);
-                    }
+                            // Funcionalidad del boton_confirmar
+                            boton_confirmar_turno.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    List<turno> turnoAConfirmar = new ArrayList<>();
+                                    
+                                    int cont = 0;
+                                    for (int i = 0; i < checkboxes_select.size(); i++) {
+                                        if (checkboxes_select.get(i).isSelected()) {
+                                            turnoAConfirmar.add(turnosUsuario_a_dar.get(i));
+                                        }
+                                    }
+
+                                    if (turnoAConfirmar.isEmpty()) {
+                                        JOptionPane.showMessageDialog(ventana_agendar_t, "No seleccionaste ningun turno");
+                                    } else if (turnoAConfirmar.size() >= 2){
+                                        JOptionPane.showMessageDialog(ventana_agendar_t, "Solo se puede agendar un turno a la vez. Por favor, selecciona una sola casilla");
+                                    } else {
+                                        int confirmar = JOptionPane.showConfirmDialog(ventana_agendar_t,"¿Seguro que queres confirmar el turno seleccionado?", "Confirmar turno", JOptionPane.YES_NO_OPTION);
+                                        turno turno_seleccionado = turnoAConfirmar.get(0);
+
+                                        if (confirmar == JOptionPane.YES_OPTION) {   
+                                            try {
+                                                turno_seleccionado.setId_paciente(usuario.getId_paciente());
+                                                turno_seleccionado.setEstado("Pendiente");
+                                                turnoDAO.actualizarTurno(turno_seleccionado);
+
+                                                checkboxes_select.removeIf(cb -> cb.isSelected()); // también removemos el checkbox
+                                                
+                                            } catch (SQLException ex) {
+                                                ex.printStackTrace();
+                                                JOptionPane.showMessageDialog(ventana_agendar_t, "Error al agendar el turno: " + ex.getMessage());
+                                            }
+
+                                            JOptionPane.showMessageDialog(ventana_agendar_t, "Turno agendado con éxito.");
+                                            checkboxes_select.clear();
+                                            turnoAConfirmar.clear();
+                                            ventana_agendar_t.dispose();
+                                            ventana_principal.setVisible(true);  
+                                                                                      
+                                        }
+                                    }
+                                } 
+                            });
+
+                            ventana_agendar_t.setVisible(true);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }  
                 });
             }
         });
-
-        boton_turno.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame ventana_turnos = new JFrame("Mis turnos");
-                ventana_turnos.setSize(400, 400);
-                ventana_turnos.setLayout(null);
-
-                // Aquí se agregarían los componentes para ver los turnos del usuario
-                JLabel etiqueta_info = new JLabel("Funcionalidad para ver turnos próximamente.");
-                etiqueta_info.setBounds(50, 50, 300, 30);
-                ventana_turnos.add(etiqueta_info);
-
-                ventana_turnos.setVisible(true);
-            }
-        });
-
-                ventana_agendar.setVisible(true);
-            }
-            });
         
-        // -------------- Funcionalidad del boton para manejar los turnos del usuario -----------------------
+        // -------------------- Funcionalidad del boton para manejar los turnos del usuario -----------------------
         boton_turno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ventana_principal.dispose();
                 JFrame ventana_turnos = new JFrame("Mis turnos");
                 ventana_turnos.setSize(700, 500);
                 ventana_turnos.setLayout(null);
@@ -537,114 +649,220 @@ public class Main {
 
                 Boolean tieneTurno = false;
                 int y = 70;
+                Boolean tieneAtrasado = false;
 
                 // Guardamos los checkboxes con sus turnos asociados
                 List<JCheckBox> checkboxes = new ArrayList<>();
                 List<turno> turnosUsuario = new ArrayList<>();
 
+                // Boton para mostrar turnos pendientes
+                JButton boton_pendientes = new JButton("Pendientes");
+                boton_pendientes.setBounds(50, 80, 150, 30);
+                boton_pendientes.setFont(new Font("Cambria", Font.BOLD, 16));
+                boton_pendientes.setBackground(new Color(255, 134, 134));
+                ventana_turnos.add(boton_pendientes);
 
-                for (turno tur : turnos) {                    
-                    if (tur.getId_paciente() == id_usuario && tur.getEstado().equals("Pendiente")) {
-                        tieneTurno = true;
+                // boton para mostrar turnos pasados
+                JButton boton_pasados = new JButton("Pasados");
+                boton_pasados.setBounds(280, 80, 150, 30);
+                boton_pasados.setFont(new Font("Cambria", Font.BOLD, 16));
+                boton_pasados.setBackground(new Color(216, 191, 216));
+                ventana_turnos.add(boton_pasados);
 
-                        //  Okis aca encontramos un turno, lo mostramos pero primero cambiamos la fecha 
-                        DateTimeFormatter formatoUsuario = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
-                        String fecha_linda = tur.getFecha().format(formatoUsuario);
-
-                        JCheckBox casilla = new JCheckBox(tur.getEspecialidad() + " - " + fecha_linda + " (" + tur.getConsultorio() + ")");
-                        casilla.setFont(new Font("Cambria", Font.PLAIN, 14));
-                        casilla.setBackground(new Color(230, 245, 255));
-                        casilla.setBounds(60, y, 600, 25);
-                        ventana_turnos.add(casilla);
-
-                        checkboxes.add(casilla);
-                        turnosUsuario.add(tur);
-
-                        y += 30;
-
-                    } else if (tur.getId_paciente() == id_usuario && tur.getEstado().equals("Atrasado")) {
-                        // ACA HABRIA QUE VER COMO CHEQUEAR QUE UN TURNO ESTE ATRASADO!!!!!!!!!!!!__________________________________________________________________________----
-                        tieneTurno = true;
-                        DateTimeFormatter formatoUsuario = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
-                        String fecha_linda = tur.getFecha().format(formatoUsuario);
-                            
-                        JLabel etiquetaFecha = new JLabel("- Turno perdido de " + tur.getEspecialidad() + " el " + fecha_linda);
-                        etiquetaFecha.setFont(new Font("Cambria", Font.PLAIN, 14));
-                        etiquetaFecha.setBounds(60, y + 20, 450, 25);
-                        ventana_turnos.add(etiquetaFecha);
-                        y += 30;
-                    }
-                }
-                
-                if (!tieneTurno) {
-                    JLabel etiqueta_turno_hallado = new JLabel("- No hay turnos pendientes");
-                    etiqueta_turno_hallado.setFont(new Font("Cambria", Font.PLAIN, 15));
-                    etiqueta_turno_hallado.setBounds(150, 250, 250, 25);
-                    ventana_turnos.add(etiqueta_turno_hallado);
-                }
-                
-                // Boton volver para atras y su funcion!!
+                // Boton para volver a ventana principal
                 JButton boton_volver = new JButton("Volver");
-                boton_volver.setBounds(200, 400, 150, 40);
+                boton_volver.setBounds(510, 80, 100, 30);
                 boton_volver.setFont(new Font("Cambria", Font.BOLD, 16));
-                boton_volver.setBackground(new Color(255, 185, 193));
+                boton_volver.setBackground(new Color(255, 134, 134));
                 ventana_turnos.add(boton_volver);
-
-                boton_volver.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                    
-                    ventana_turnos.dispose(); 
-                    ventana_principal.setVisible(true); 
-                    }
-                });
 
                 // Boton para cancelar turnos  
                 JButton boton_cancelar = new JButton("Cancelar seleccionados");
-                boton_cancelar.setBounds(370, 400, 220, 40);
+                boton_cancelar.setBounds(100, 400, 220, 30);
                 boton_cancelar.setFont(new Font("Cambria", Font.BOLD, 16));
                 boton_cancelar.setBackground(new Color(216, 191, 216));
-                ventana_turnos.add(boton_cancelar);
 
-                boton_cancelar.addActionListener(new ActionListener() {
+
+                // Boton para agregar otro turno
+                JButton boton_agregar = new JButton("Nuevo");
+                boton_agregar.setBounds(520, 400, 100, 30);
+                boton_agregar.setFont(new Font("Cambria", Font.BOLD, 16));
+                boton_agregar.setBackground(new Color(255, 134, 134));
+
+
+                // La accion del boton volver 
+                ActionListener volver_atras = new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e2) {
-                        List<Integer> turnosACancelar = new ArrayList<>();
+                    public void actionPerformed(ActionEvent e) {
+                    ventana_turnos.dispose(); 
+                    ventana_principal.setVisible(true); 
+                    }
+                };
 
+                // Acion del boton pendiente - MOSTRAMOS SOLO LOS TURNOS PENDIENTES
+                ActionListener mostrar_pendientes = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ventana_turnos.getContentPane().removeAll();
+                        ventana_turnos.getContentPane().setBackground(new Color(230, 245, 255)); 
+                        ventana_turnos.repaint();
+
+                        ventana_turnos.add(titulo);
+                        ventana_turnos.add(boton_pendientes);
+                        ventana_turnos.add(boton_pasados);
+                        ventana_turnos.add(boton_volver);
+                        ventana_turnos.add(boton_cancelar);
+                        ventana_turnos.add(boton_agregar);
+
+                        int y = 150;
+                        boolean tieneTurno = false;
+
+                        for (turno tur : turnos) {
+                            System.out.println("ID turno: " + tur.getId_turno() + ", ID paciente: " + tur.getId_paciente() + ", estado: " + tur.getEstado());
+                           if (Objects.equals(tur.getId_paciente(), id_usuario) && "Pendiente".equals(tur.getEstado())) { 
+                                tieneTurno = true;
+                                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
+                                String fecha_linda = tur.getFecha().format(formato);
+
+                                JCheckBox casilla = new JCheckBox(tur.getEspecialidad() + " - " + fecha_linda + " (" + tur.getConsultorio() + ")");
+                                casilla.setFont(new Font("Cambria", Font.PLAIN, 14));
+                                casilla.setBackground(new Color(230, 245, 255));
+                                casilla.setBounds(60, y, 600, 25);
+                                ventana_turnos.add(casilla);
+
+                                checkboxes.add(casilla);
+                                turnosUsuario.add(tur);
+
+                                y += 30;
+                            }
+                        }
+
+                        if (!tieneTurno) {
+                            JLabel sin_turnos = new JLabel("No hay turnos pendientes");
+                            sin_turnos.setFont(new Font("Cambria", Font.PLAIN, 18));
+                            sin_turnos.setBounds(250, 220, 300, 25);
+                            ventana_turnos.add(sin_turnos);
+                        }
+
+                        ventana_turnos.revalidate(); // para actualizar el layout
+                        ventana_turnos.repaint();    // para redibujar la ventana con los cambios
+                    }
+                };
+
+
+                // La accion del boton cancelar
+                ActionListener cancelar_turno = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        List<turno> turnosACancelar = new ArrayList<>();
+                        
                         for (int i = 0; i < checkboxes.size(); i++) {
                             if (checkboxes.get(i).isSelected()) {
-                                turnosACancelar.add(turnosUsuario.get(i).getId_turno());
+                                turnosACancelar.add(turnosUsuario.get(i));
                             }
                         }
 
-                        
-                        int confirmar = JOptionPane.showConfirmDialog(ventana_turnos,"¿Seguro que queres cancelar los turnos seleccionados?", "Confirmar cancelación", JOptionPane.YES_NO_OPTION);
+                        if (turnosACancelar.isEmpty()) {
+                            JOptionPane.showMessageDialog(ventana_turnos, "No seleccionaste ningun turno");
+                        } else {
+                            int confirmar = JOptionPane.showConfirmDialog(ventana_turnos,"¿Seguro que queres cancelar los turnos seleccionados?", "Confirmar cancelación", JOptionPane.YES_NO_OPTION);
+            
+                            if (confirmar == JOptionPane.YES_OPTION) {
+                                for (turno tur : turnosACancelar) {
+                                    try {
+                                        tur.setId_paciente(null);
+                                        tur.setEstado("Disponible");
+                                        turnoDAO.actualizarTurno(tur);
 
-                        if (confirmar == JOptionPane.YES_OPTION) {
-                            for (int id_turno : turnosACancelar) {
-                                try {
-                                    turnoDAO.eliminarTurno(id_turno);
-                                } catch (SQLException ex) {
-                                    ex.printStackTrace();
-                                    JOptionPane.showMessageDialog(ventana_turnos, "Error al cancelar el turno: " + ex.getMessage());
+                                        checkboxes.removeIf(cb -> cb.isSelected()); // también removemos el checkbox
+                                    } catch (SQLException ex) {
+                                        ex.printStackTrace();
+                                        JOptionPane.showMessageDialog(ventana_turnos, "Error al cancelar el turno: " + ex.getMessage());
+                                    }
                                 }
+                                JOptionPane.showMessageDialog(ventana_turnos, "Turnos cancelados con éxito.");
+                                checkboxes.clear();
+                                turnosUsuario.clear();
+                                ventana_turnos.getContentPane().removeAll();
+                                mostrar_pendientes.actionPerformed(null);
+                                
                             }
-                            JOptionPane.showMessageDialog(ventana_turnos, "Turnos cancelados con éxito.");
+                        }
+                    } 
+                };
+
+                // Accion del boton pasados -MOSTRAMOS SOLO LOS TURNOS PASADOS
+                ActionListener mostrar_pasados = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ventana_turnos.getContentPane().removeAll();
+                        ventana_turnos.getContentPane().setBackground(new Color(230, 245, 255)); 
+                        ventana_turnos.repaint();
+
+                        ventana_turnos.add(titulo);
+                        ventana_turnos.add(boton_pendientes);
+                        ventana_turnos.add(boton_pasados);
+                        ventana_turnos.add(boton_volver);
+
+                        int y = 150;
+                        boolean tieneAtrasado = false;
+
+                        for (turno tur : turnos) {
+                            if (Objects.equals(tur.getId_paciente(), id_usuario) && "Atrasado".equals(tur.getEstado())) {
+                                tieneAtrasado = true;
+                                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'a las' HH:mm");
+                                String fecha_linda = tur.getFecha().format(formato);
+
+                                JLabel etiqueta = new JLabel("- Turno perdido de " + tur.getEspecialidad() + " el " + fecha_linda);
+                                etiqueta.setFont(new Font("Cambria", Font.PLAIN, 14));
+                                etiqueta.setBounds(60, y, 500, 25);
+                                ventana_turnos.add(etiqueta);
+
+                                y += 30;
+                            }
+                        }
+
+                        if (!tieneAtrasado) {
+                            JLabel sinTurnos = new JLabel("No hay turnos pasados");
+                            sinTurnos.setFont(new Font("Cambria", Font.PLAIN, 18));
+                            sinTurnos.setBounds(250, 250, 300, 25);
+                            ventana_turnos.add(sinTurnos);
+                        }
+
+                        ventana_turnos.revalidate();
+                        ventana_turnos.repaint();
+                    }
+                };
+                
+                // Accion del boton agregar - LLEVAMOS A LA PANTALLA AGREGAR
+                ActionListener nuevo_turno = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int confirmar_nuevo = JOptionPane.showConfirmDialog(ventana_turnos,"¿Solicitar nuevo turno? Te llevaremos a la ventana principal", "Confirmar solicitud", JOptionPane.YES_NO_OPTION);
+                        if (confirmar_nuevo == JOptionPane.YES_OPTION) {
                             ventana_turnos.dispose();
+                            ventana_principal.setVisible(true);
                         }
                     }
-                
-                
-                });
-            
-                ventana_turnos.setVisible(true);
+                };
 
+                boton_pendientes.addActionListener(mostrar_pendientes);
+                boton_pasados.addActionListener(mostrar_pasados);
+                boton_volver.addActionListener(volver_atras);
+                boton_cancelar.addActionListener(cancelar_turno);
+                boton_agregar.addActionListener(nuevo_turno);
+                ventana_turnos.setVisible(true);
             }
+            
         });
 
+    
         ventana_principal.setVisible(true); // Abrimos la ventana principal
     }
+    
+
 }
+
 
 
 
