@@ -1,38 +1,27 @@
-import java.time.LocalDateTime;
 
-public class agenda {
+public class agendas {
     private int id_agenda;
-    private LocalDateTime fecha;
-    private boolean fecha_libre;
+    private int id_medico;
+    private medico medico;
 
-    public agenda(int id_agenda, LocalDateTime fecha, boolean fecha_libre) {
-        this.id_agenda = id_agenda;
-        this.fecha = fecha;
-        this.fecha_libre = fecha_libre;
-    }
-
-    // Getters y Setters para leer los atributos privados de la clase desde fuera de ella, y
-    // poder modificarlos si es necesario
-    
     public int getId_agenda() {
         return id_agenda;
     }
-
-    public LocalDateTime getfecha(){
-        return fecha;
+    public int getId_medico(){
+        return id_medico;
     }
-
-    public boolean getfecha_libre(){
-        return fecha_libre;
+    public medico getMedico() { 
+        return medico; 
     }
-
-    public void setfecha(LocalDateTime fecha){
-        this.fecha = fecha;
+    public void setMedico(medico medico) { 
+        this.medico = medico; 
     }
-
-    public void setfecha_libre(boolean fecha_libre){
-        this.fecha_libre = fecha_libre;
+    
+        public agendas(int id_agenda, int id_medico) {
+        this.id_agenda = id_agenda;
+        this.id_medico = id_medico;
     }
+    
+
 }
-
 
