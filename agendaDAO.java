@@ -1,16 +1,13 @@
+
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement; // Importa la clase PreparedStatement para ejecutar sentencias SQL precompiladas
-import java.util.List;
-import java.util.ArrayList;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
+import java.sql.SQLException;
 
-
-public class agendaDAO {
+public class agendasDAO {
     private Connection connection;
 
-    public agendaDAO() {
+    public agendasDAO() {
         try {
             connection = conexion_base.conexion();
             System.out.println("Conectado desde agendaDAO");
@@ -18,23 +15,46 @@ public class agendaDAO {
             e.printStackTrace();
         }
     }
-    // leer agendas
-    public List<agenda> obtenerAgendas() {
-        List<agenda> agendas = new ArrayList<>();
-        String sql = "SELECT * FROM agenda";
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                int id_agenda = rs.getInt("id_agenda");
-                int id_medico = rs.getInt("id_medico");
-                agenda ag = new agenda(id_agenda, id_medico);
-                agendas.add(ag);
+
+    // Obtener agenda por id
+    public agendas obtenerAgenda(int id_agenda) {
+        agendas ag = null;
+        try {
+            // Primero obtenemos la agenda
+            String sqlAgenda = "SELECT * FROM agendas WHERE id_agenda = ?";
+            PreparedStatement stmtAgenda = connection.prepareStatement(sqlAgenda);
+            stmtAgenda.setInt(1, id_agenda);
+            ResultSet rsAgenda = stmtAgenda.executeQuery();
+
+            if (rsAgenda.next()) {
+                int id_med = rsAgenda.getInt("id_medico");
+                ag = new agendas(id_agenda, id_med);
+
+                // Ahora traemos el médico correspondiente
+                String sqlMedico = "SELECT * FROM medico WHERE id_medico = ?";
+                PreparedStatement stmtMedico = connection.prepareStatement(sqlMedico);
+                stmtMedico.setInt(1, id_med);
+                ResultSet rsMedico = stmtMedico.executeQuery();
+
+                if (rsMedico.next()) {
+                    String nombre = rsMedico.getString("nombre");
+                    String apellido = rsMedico.getString("apellido");
+                    String especialidad = rsMedico.getString("especialidad");
+                    int dni = rsMedico.getInt("dni");
+                    String contrasena = rsMedico.getString("contrasena");
+
+                    medico med = new medico(id_med, nombre, apellido, especialidad, dni, contrasena);
+                    ag.setMedico(med);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return agendas;
-    }
+        if (ag == null) {
+            System.out.println("No se encontró agenda con id: " + id_agenda);
+        }
+            return ag;
 
-
+        }
 }
+
