@@ -1,29 +1,25 @@
 import java.time.LocalDateTime;
 
 public class turno {
-    private int id_turno;
+    private int id_turno;  
     private String estado;
     private String consultorio;
     private LocalDateTime fecha;
     private String especialidad;
 
     // claves foraneas
-    private int id_paciente;
-    private int id_medico;
+    private Integer id_paciente; // Para que acepte el null por si el turno esta libre
     private int id_agenda;
 
     // asociaciones 
     private paciente paciente;
-    private medico medico;
-    private agenda agenda;
+    private agendas agenda;
 
     //getters y setters
     public int getId_turno() {
         return id_turno;
     }
-    public void setId_turno(int id_turno) {
-        this.id_turno = id_turno;
-    }
+
     public String getEstado() {
         return estado;
     }
@@ -48,30 +44,20 @@ public class turno {
     public void setPaciente(paciente paciente) {
         this.paciente = paciente;
     }
-    public medico getMedico() {
-        return medico;
-    }
-    public void setMedico(medico medico) {
-        this.medico = medico;
-    }
-    public agenda getAgenda() {
+
+    public agendas getAgenda() {
         return agenda;
     }
-    public void setAgenda(agenda agenda) {
+    public void setAgenda(agendas agenda) {
         this.agenda = agenda;
     }
-    public int getId_paciente() {
+    public Integer getId_paciente() {
         return id_paciente;
     }
-    public void setId_paciente(int id_paciente) {
+    public void setId_paciente(Integer id_paciente) {
         this.id_paciente = id_paciente;
     }
-    public int getId_medico() {
-        return id_medico;
-    }
-    public void setId_medico(int id_medico) {
-        this.id_medico = id_medico;
-    }
+
     public int getId_agenda() {
         return id_agenda;
     }
@@ -85,19 +71,25 @@ public class turno {
         this.especialidad = especialidad;
     }
 
+    // Agregamos para que desde turno podamos obtener los nombres de los medicos
+    public String getNombreMedico() {
+        return agenda.getMedico().getNombre();
+    }
+
+
     // constructor 
-    public turno(int id_turno, String estado, String consultorio, LocalDateTime fecha, int id_paciente, int id_medico, int id_agenda, String especialidad) {
+    public turno(int id_turno, String estado, String consultorio, LocalDateTime fecha, Integer id_paciente, int id_agenda, String especialidad) {
         this.id_turno = id_turno;
         this.estado = estado;
         this.consultorio = consultorio;
         this.fecha = fecha;
         this.id_paciente = id_paciente;
-        this.id_medico = id_medico;
         this.id_agenda = id_agenda;
         this.especialidad = especialidad;
     }
 
 }
+
 
 
 
